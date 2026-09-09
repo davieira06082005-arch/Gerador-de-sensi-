@@ -1,581 +1,3 @@
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Gerador de Sensi FF</title>
-
-<style>
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(180deg, #090909, #151515);
-  color: #fff;
-}
-
-.container {
-  width: 100%;
-  max-width: 520px;
-  margin: auto;
-  padding: 22px 16px 40px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.logo {
-  font-size: 30px;
-  font-weight: 900;
-  color: #ff2b2b;
-  text-transform: uppercase;
-}
-
-.subtitle {
-  color: #aaa;
-  font-size: 14px;
-  margin-top: 7px;
-}
-
-.card {
-  background: #1b1b1b;
-  border: 1px solid #292929;
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.25);
-}
-
-label,
-.section-title {
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 9px;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #333;
-  border-radius: 12px;
-  background: #101010;
-  color: #fff;
-  outline: none;
-  font-size: 15px;
-}
-
-input:focus,
-select:focus {
-  border-color: #ff3030;
-}
-
-.help {
-  color: #888;
-  font-size: 12px;
-  margin-top: 7px;
-  line-height: 1.4;
-}
-
-.options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.option {
-  position: relative;
-}
-
-.option input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.option label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 58px;
-  margin: 0;
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #333;
-  border-radius: 13px;
-  background: #101010;
-  color: #ccc;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.option input:checked + label {
-  border-color: #ff3030;
-  background: rgba(255,48,48,.12);
-  color: #fff;
-  box-shadow: 0 0 12px rgba(255,48,48,.12);
-}
-
-.dpi-box {
-  display: none;
-  margin-top: 13px;
-}
-
-.dpi-box.active {
-  display: block;
-}
-
-.generate {
-  width: 100%;
-  padding: 17px;
-  border: 0;
-  border-radius: 14px;
-  background: linear-gradient(90deg, #ff1717, #ff4848);
-  color: #fff;
-  font-size: 17px;
-  font-weight: 900;
-  cursor: pointer;
-  box-shadow: 0 8px 22px rgba(255,35,35,.22);
-  transition: .2s;
-}
-
-.generate:active {
-  transform: scale(.98);
-}
-
-.warning {
-  display: none;
-  margin-top: 10px;
-  color: #ff7777;
-  font-size: 12px;
-}
-
-.result {
-  display: none;
-}
-
-.result.active {
-  display: block;
-}
-
-.result-header {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.result-header h2 {
-  margin: 0 0 6px;
-  color: #ff3b3b;
-}
-
-.result-header p {
-  margin: 0;
-  color: #999;
-  font-size: 13px;
-}
-
-.sensi-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.sensi-item {
-  background: #101010;
-  border: 1px solid #292929;
-  border-radius: 14px;
-  padding: 15px;
-}
-
-.sensi-name {
-  color: #aaa;
-  font-size: 13px;
-  margin-bottom: 5px;
-}
-
-.sensi-number {
-  font-size: 29px;
-  font-weight: 900;
-  color: #fff;
-}
-
-.badge {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 7px 10px;
-  border-radius: 20px;
-  background: #262626;
-  color: #ddd;
-  font-size: 11px;
-}
-
-.tip {
-  margin-top: 14px;
-  padding: 13px;
-  border-radius: 12px;
-  background: #111;
-  border: 1px solid #292929;
-  color: #aaa;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.reset {
-  width: 100%;
-  margin-top: 12px;
-  padding: 13px;
-  border-radius: 12px;
-  border: 1px solid #333;
-  background: transparent;
-  color: #aaa;
-  cursor: pointer;
-}
-
-@media (max-width: 380px) {
-  .options,
-  .sensi-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-  <div class="header">
-    <div class="logo">GERADOR DE SENSI FF</div>
-
-    <div class="subtitle">
-      Gere uma configuração personalizada para seu estilo de jogo
-    </div>
-  </div>
-
-  <!-- CELULAR -->
-  <div class="card">
-
-    <label for="celular">
-      📱 Nome exato do seu celular
-    </label>
-
-    <input
-      id="celular"
-      type="text"
-      placeholder="Ex: Realme Note 70"
-      value="Realme Note 70"
-      autocomplete="off"
-    >
-
-    <div class="help">
-      Digite a marca e o modelo exatos do aparelho.
-    </div>
-
-  </div>
-
-
-  <!-- ESTILO -->
-  <div class="card">
-
-    <div class="section-title">
-      🎮 Seu estilo de jogo
-    </div>
-
-    <select id="estilo">
-
-      <option value="rush">
-        🔥 Rush / Capa
-      </option>
-
-      <option value="equilibrado">
-        🎯 Equilibrado
-      </option>
-
-      <option value="precisao">
-        🎯 Precisão
-      </option>
-
-      <option value="longa">
-        🔭 Longa distância
-      </option>
-
-    </select>
-
-  </div>
-
-
-  <!-- DPI -->
-  <div class="card">
-
-    <div class="section-title">
-      📲 Configuração de DPI
-    </div>
-
-    <div class="options">
-
-      <div class="option">
-
-        <input
-          type="radio"
-          name="dpiModo"
-          id="semDpi"
-          value="sem"
-          checked
-        >
-
-        <label for="semDpi">
-          📱<br>
-          Sem DPI
-        </label>
-
-      </div>
-
-
-      <div class="option">
-
-        <input
-          type="radio"
-          name="dpiModo"
-          id="comDpi"
-          value="com"
-        >
-
-        <label for="comDpi">
-          ⚙️<br>
-          Com DPI
-        </label>
-
-      </div>
-
-    </div>
-
-    <div class="help">
-      Sem DPI = usa o comportamento padrão do aparelho.
-      Com DPI = cálculo ajustado para o DPI informado.
-    </div>
-
-
-    <div class="dpi-box" id="dpiBox">
-
-      <label for="dpi">
-        📊 Digite seu DPI
-      </label>
-
-      <input
-        id="dpi"
-        type="number"
-        min="200"
-        max="1200"
-        placeholder="Ex: 600"
-      >
-
-      <div class="help">
-        Informe o DPI que você realmente utiliza.
-      </div>
-
-      <div
-        class="warning"
-        id="dpiWarning"
-      >
-        Digite um DPI entre 200 e 1200.
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- TIPO DE MIRA -->
-  <div class="card">
-
-    <div class="section-title">
-      🎯 Tipo de mira
-    </div>
-
-    <select id="mira">
-
-      <option value="capa">
-        🔥 Capa / Headshot
-      </option>
-
-      <option value="rapida">
-        ⚡ Mira rápida
-      </option>
-
-      <option value="equilibrada">
-        🎯 Mira equilibrada
-      </option>
-
-      <option value="precisa">
-        🎯 Mira precisa
-      </option>
-
-      <option value="longa">
-        🔭 Longa distância
-      </option>
-
-    </select>
-
-    <div class="help">
-      A escolha da mira altera o cálculo da sensibilidade.
-    </div>
-
-  </div>
-
-
-  <!-- BOTÃO -->
-  <div class="card">
-
-    <button
-      class="generate"
-      onclick="gerarSensi()"
-    >
-      🔥 GERAR MINHA SENSI
-    </button>
-
-  </div>
-
-
-  <!-- RESULTADO -->
-  <div
-    class="card result"
-    id="resultado"
-  >
-
-    <div class="result-header">
-
-      <h2>
-        🎯 SUA SENSI FOI GERADA
-      </h2>
-
-      <p id="resumo">
-        Configuração personalizada
-      </p>
-
-    </div>
-
-
-    <div class="sensi-grid">
-
-      <div class="sensi-item">
-        <div class="sensi-name">
-          Geral
-        </div>
-
-        <div
-          class="sensi-number"
-          id="geral"
-        >
-          196
-        </div>
-      </div>
-
-
-      <div class="sensi-item">
-        <div class="sensi-name">
-          Ponto Vermelho
-        </div>
-
-        <div
-          class="sensi-number"
-          id="redDot"
-        >
-          190
-        </div>
-      </div>
-
-
-      <div class="sensi-item">
-        <div class="sensi-name">
-          Mira 2x
-        </div>
-
-        <div
-          class="sensi-number"
-          id="mira2x"
-        >
-          180
-        </div>
-      </div>
-
-
-      <div class="sensi-item">
-        <div class="sensi-name">
-          Mira 4x
-        </div>
-
-        <div
-          class="sensi-number"
-          id="mira4x"
-        >
-          170
-        </div>
-      </div>
-
-
-      <div class="sensi-item">
-        <div class="sensi-name">
-          Mira AWM
-        </div>
-
-        <div
-          class="sensi-number"
-          id="awm"
-        >
-          120
-        </div>
-      </div>
-
-
-      <div class="sensi-item">
-        <div class="sensi-name">
-          Olhadinha
-        </div>
-
-        <div
-          class="sensi-number"
-          id="olhadinha"
-        >
-          185
-        </div>
-      </div>
-
-    </div>
-
-
-    <div class="badge">
-      🔥 Configuração personalizada
-    </div>
-
-
-    <div class="tip">
-      💡 Dica: a sensibilidade é uma base personalizada.
-      Para melhorar a puxada de capa, faça pequenos ajustes
-      conforme seu HUD, botão de tiro, película e maneira de arrastar.
-    </div>
-
-
-    <button
-      class="reset"
-      onclick="novaSensi()"
-    >
-      🔄 Gerar novamente
-    </button>
-
-  </div>
-
-</div>
-
-
 <script>
 
 /* ==============================
@@ -586,11 +8,11 @@ const semDpi = document.getElementById("semDpi");
 const comDpi = document.getElementById("comDpi");
 const dpiBox = document.getElementById("dpiBox");
 
-semDpi.addEventListener("change", function() {
+semDpi.addEventListener("change", function () {
   dpiBox.classList.remove("active");
 });
 
-comDpi.addEventListener("change", function() {
+comDpi.addEventListener("change", function () {
   dpiBox.classList.add("active");
 });
 
@@ -600,12 +22,10 @@ comDpi.addEventListener("change", function() {
 ============================== */
 
 function limitar(valor, minimo = 0, maximo = 200) {
-
   return Math.max(
     minimo,
     Math.min(maximo, Math.round(valor))
   );
-
 }
 
 
@@ -618,24 +38,15 @@ function calcularVariacaoCelular(nome) {
   let total = 0;
 
   for (let i = 0; i < nome.length; i++) {
-
     total += nome.charCodeAt(i) * (i + 1);
-
   }
 
-  /*
-    Pequena variação baseada no nome do aparelho.
-    Isso faz modelos diferentes não receberem
-    exatamente o mesmo resultado.
-  */
-
   return (total % 15) - 7;
-
 }
 
 
 /* ==============================
-   GERADOR
+   GERADOR DE SENSI
 ============================== */
 
 function gerarSensi() {
@@ -655,3 +66,284 @@ function gerarSensi() {
     ).value;
 
   const dpiInput =
+    document.getElementById("dpi");
+
+  const dpiWarning =
+    document.getElementById("dpiWarning");
+
+  /* Verifica celular */
+
+  if (celular === "") {
+
+    alert("Digite o nome do seu celular.");
+
+    document.getElementById("celular").focus();
+
+    return;
+  }
+
+
+  /* ==============================
+     VALOR BASE
+  ============================== */
+
+  let geral = 190;
+  let redDot = 185;
+  let mira2x = 175;
+  let mira4x = 165;
+  let awm = 120;
+  let olhadinha = 180;
+
+
+  /* ==============================
+     AJUSTE PELO ESTILO
+  ============================== */
+
+  if (estilo === "rush") {
+
+    geral += 6;
+    redDot += 7;
+    mira2x += 5;
+    mira4x += 3;
+    awm += 2;
+    olhadinha += 6;
+
+  }
+
+  else if (estilo === "equilibrado") {
+
+    geral += 2;
+    redDot += 2;
+    mira2x += 1;
+    mira4x += 1;
+    awm += 1;
+    olhadinha += 2;
+
+  }
+
+  else if (estilo === "precisao") {
+
+    geral -= 3;
+    redDot -= 2;
+    mira2x -= 2;
+    mira4x += 1;
+    awm += 4;
+    olhadinha -= 2;
+
+  }
+
+  else if (estilo === "longa") {
+
+    geral -= 7;
+    redDot -= 5;
+    mira2x -= 4;
+    mira4x -= 2;
+    awm += 7;
+    olhadinha -= 5;
+
+  }
+
+
+  /* ==============================
+     AJUSTE PELO TIPO DE MIRA
+  ============================== */
+
+  if (mira === "capa") {
+
+    geral += 5;
+    redDot += 6;
+    mira2x += 4;
+    olhadinha += 4;
+
+  }
+
+  else if (mira === "rapida") {
+
+    geral += 7;
+    redDot += 5;
+    mira2x += 4;
+    mira4x += 2;
+    olhadinha += 6;
+
+  }
+
+  else if (mira === "equilibrada") {
+
+    geral += 2;
+    redDot += 2;
+    mira2x += 2;
+
+  }
+
+  else if (mira === "precisa") {
+
+    geral -= 3;
+    redDot -= 2;
+    mira2x -= 2;
+    mira4x -= 1;
+    awm += 3;
+
+  }
+
+  else if (mira === "longa") {
+
+    geral -= 6;
+    redDot -= 4;
+    mira2x -= 3;
+    mira4x -= 2;
+    awm += 6;
+    olhadinha -= 4;
+
+  }
+
+
+  /* ==============================
+     AJUSTE PELO CELULAR
+  ============================== */
+
+  const variacao =
+    calcularVariacaoCelular(celular);
+
+  geral += variacao;
+  redDot += variacao;
+  mira2x += variacao;
+  mira4x += variacao;
+  awm += Math.round(variacao / 2);
+  olhadinha += variacao;
+
+
+  /* ==============================
+     AJUSTE PELO DPI
+  ============================== */
+
+  if (modoDpi === "com") {
+
+    const dpi = Number(dpiInput.value);
+
+    if (
+      !dpi ||
+      dpi < 200 ||
+      dpi > 1200
+    ) {
+
+      dpiWarning.style.display = "block";
+
+      dpiInput.focus();
+
+      return;
+
+    }
+
+    dpiWarning.style.display = "none";
+
+
+    /*
+      DPI 600 é considerado o ponto central.
+      DPI maior = sensibilidade um pouco menor.
+      DPI menor = sensibilidade um pouco maior.
+    */
+
+    const ajusteDpi =
+      Math.round((600 - dpi) / 100);
+
+    geral += ajusteDpi;
+    redDot += ajusteDpi;
+    mira2x += ajusteDpi;
+    mira4x += ajusteDpi;
+    awm += Math.round(ajusteDpi / 2);
+    olhadinha += ajusteDpi;
+
+  }
+
+
+  /* ==============================
+     LIMITAR RESULTADOS
+  ============================== */
+
+  geral = limitar(geral, 0, 200);
+  redDot = limitar(redDot, 0, 200);
+  mira2x = limitar(mira2x, 0, 200);
+  mira4x = limitar(mira4x, 0, 200);
+  awm = limitar(awm, 0, 200);
+  olhadinha = limitar(olhadinha, 0, 200);
+
+
+  /* ==============================
+     MOSTRAR RESULTADO
+  ============================== */
+
+  document.getElementById("geral").textContent =
+    geral;
+
+  document.getElementById("redDot").textContent =
+    redDot;
+
+  document.getElementById("mira2x").textContent =
+    mira2x;
+
+  document.getElementById("mira4x").textContent =
+    mira4x;
+
+  document.getElementById("awm").textContent =
+    awm;
+
+  document.getElementById("olhadinha").textContent =
+    olhadinha;
+
+
+  /* ==============================
+     RESUMO
+  ============================== */
+
+  let textoDpi = "Sem DPI";
+
+  if (modoDpi === "com") {
+    textoDpi = "DPI " + dpiInput.value;
+  }
+
+  document.getElementById("resumo").textContent =
+    celular +
+    " • " +
+    textoDpi +
+    " • " +
+    estilo +
+    " • " +
+    mira;
+
+
+  /* ==============================
+     MOSTRA O CARD
+  ============================== */
+
+  const resultado =
+    document.getElementById("resultado");
+
+  resultado.classList.add("active");
+
+  resultado.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+
+
+/* ==============================
+   GERAR NOVAMENTE
+============================== */
+
+function novaSensi() {
+
+  const resultado =
+    document.getElementById("resultado");
+
+  resultado.classList.remove("active");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+  </script>
