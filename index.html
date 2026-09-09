@@ -1,4 +1,4 @@
->
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -134,30 +134,6 @@ select:focus {
   display: block;
 }
 
-.range-area {
-  margin-top: 14px;
-}
-
-.range-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.range-value {
-  color: #ff4545;
-  font-weight: bold;
-}
-
-input[type="range"] {
-  width: 100%;
-  accent-color: #ff3030;
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
 .generate {
   width: 100%;
   padding: 17px;
@@ -174,6 +150,13 @@ input[type="range"] {
 
 .generate:active {
   transform: scale(.98);
+}
+
+.warning {
+  display: none;
+  margin-top: 10px;
+  color: #ff7777;
+  font-size: 12px;
 }
 
 .result {
@@ -257,13 +240,6 @@ input[type="range"] {
   cursor: pointer;
 }
 
-.warning {
-  display: none;
-  margin-top: 10px;
-  color: #ff7777;
-  font-size: 12px;
-}
-
 @media (max-width: 380px) {
   .options,
   .sensi-grid {
@@ -279,12 +255,13 @@ input[type="range"] {
 
   <div class="header">
     <div class="logo">GERADOR DE SENSI FF</div>
+
     <div class="subtitle">
       Gere uma configuração personalizada para seu estilo de jogo
     </div>
   </div>
 
-  <!-- APARELHO -->
+  <!-- CELULAR -->
   <div class="card">
 
     <label for="celular">
@@ -295,6 +272,7 @@ input[type="range"] {
       id="celular"
       type="text"
       placeholder="Ex: Realme Note 70"
+      value="Realme Note 70"
       autocomplete="off"
     >
 
@@ -304,19 +282,36 @@ input[type="range"] {
 
   </div>
 
+
   <!-- ESTILO -->
   <div class="card">
 
-    <div class="section-title">🎮 Seu estilo de jogo</div>
+    <div class="section-title">
+      🎮 Seu estilo de jogo
+    </div>
 
     <select id="estilo">
-      <option value="rush">🔥 Rush / Capa</option>
-      <option value="equilibrado">🎯 Equilibrado</option>
-      <option value="precisao">🎯 Precisão</option>
-      <option value="longa">🔭 Longa distância</option>
+
+      <option value="rush">
+        🔥 Rush / Capa
+      </option>
+
+      <option value="equilibrado">
+        🎯 Equilibrado
+      </option>
+
+      <option value="precisao">
+        🎯 Precisão
+      </option>
+
+      <option value="longa">
+        🔭 Longa distância
+      </option>
+
     </select>
 
   </div>
+
 
   <!-- DPI -->
   <div class="card">
@@ -328,6 +323,7 @@ input[type="range"] {
     <div class="options">
 
       <div class="option">
+
         <input
           type="radio"
           name="dpiModo"
@@ -340,9 +336,12 @@ input[type="range"] {
           📱<br>
           Sem DPI
         </label>
+
       </div>
 
+
       <div class="option">
+
         <input
           type="radio"
           name="dpiModo"
@@ -354,14 +353,16 @@ input[type="range"] {
           ⚙️<br>
           Com DPI
         </label>
+
       </div>
 
     </div>
 
     <div class="help">
-      Sem DPI = sensibilidade pensada para o DPI padrão do aparelho.
+      Sem DPI = usa o comportamento padrão do aparelho.
       Com DPI = cálculo ajustado para o DPI informado.
     </div>
+
 
     <div class="dpi-box" id="dpiBox">
 
@@ -378,7 +379,279 @@ input[type="range"] {
       >
 
       <div class="help">
-        Informe o DPI que você realmente usa no celular.
+        Informe o DPI que você realmente utiliza.
       </div>
 
-      <div class="warning" id="dpi
+      <div
+        class="warning"
+        id="dpiWarning"
+      >
+        Digite um DPI entre 200 e 1200.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- TIPO DE MIRA -->
+  <div class="card">
+
+    <div class="section-title">
+      🎯 Tipo de mira
+    </div>
+
+    <select id="mira">
+
+      <option value="capa">
+        🔥 Capa / Headshot
+      </option>
+
+      <option value="rapida">
+        ⚡ Mira rápida
+      </option>
+
+      <option value="equilibrada">
+        🎯 Mira equilibrada
+      </option>
+
+      <option value="precisa">
+        🎯 Mira precisa
+      </option>
+
+      <option value="longa">
+        🔭 Longa distância
+      </option>
+
+    </select>
+
+    <div class="help">
+      A escolha da mira altera o cálculo da sensibilidade.
+    </div>
+
+  </div>
+
+
+  <!-- BOTÃO -->
+  <div class="card">
+
+    <button
+      class="generate"
+      onclick="gerarSensi()"
+    >
+      🔥 GERAR MINHA SENSI
+    </button>
+
+  </div>
+
+
+  <!-- RESULTADO -->
+  <div
+    class="card result"
+    id="resultado"
+  >
+
+    <div class="result-header">
+
+      <h2>
+        🎯 SUA SENSI FOI GERADA
+      </h2>
+
+      <p id="resumo">
+        Configuração personalizada
+      </p>
+
+    </div>
+
+
+    <div class="sensi-grid">
+
+      <div class="sensi-item">
+        <div class="sensi-name">
+          Geral
+        </div>
+
+        <div
+          class="sensi-number"
+          id="geral"
+        >
+          196
+        </div>
+      </div>
+
+
+      <div class="sensi-item">
+        <div class="sensi-name">
+          Ponto Vermelho
+        </div>
+
+        <div
+          class="sensi-number"
+          id="redDot"
+        >
+          190
+        </div>
+      </div>
+
+
+      <div class="sensi-item">
+        <div class="sensi-name">
+          Mira 2x
+        </div>
+
+        <div
+          class="sensi-number"
+          id="mira2x"
+        >
+          180
+        </div>
+      </div>
+
+
+      <div class="sensi-item">
+        <div class="sensi-name">
+          Mira 4x
+        </div>
+
+        <div
+          class="sensi-number"
+          id="mira4x"
+        >
+          170
+        </div>
+      </div>
+
+
+      <div class="sensi-item">
+        <div class="sensi-name">
+          Mira AWM
+        </div>
+
+        <div
+          class="sensi-number"
+          id="awm"
+        >
+          120
+        </div>
+      </div>
+
+
+      <div class="sensi-item">
+        <div class="sensi-name">
+          Olhadinha
+        </div>
+
+        <div
+          class="sensi-number"
+          id="olhadinha"
+        >
+          185
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="badge">
+      🔥 Configuração personalizada
+    </div>
+
+
+    <div class="tip">
+      💡 Dica: a sensibilidade é uma base personalizada.
+      Para melhorar a puxada de capa, faça pequenos ajustes
+      conforme seu HUD, botão de tiro, película e maneira de arrastar.
+    </div>
+
+
+    <button
+      class="reset"
+      onclick="novaSensi()"
+    >
+      🔄 Gerar novamente
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* ==============================
+   MOSTRAR / ESCONDER DPI
+============================== */
+
+const semDpi = document.getElementById("semDpi");
+const comDpi = document.getElementById("comDpi");
+const dpiBox = document.getElementById("dpiBox");
+
+semDpi.addEventListener("change", function() {
+  dpiBox.classList.remove("active");
+});
+
+comDpi.addEventListener("change", function() {
+  dpiBox.classList.add("active");
+});
+
+
+/* ==============================
+   LIMITAR VALORES
+============================== */
+
+function limitar(valor, minimo = 0, maximo = 200) {
+
+  return Math.max(
+    minimo,
+    Math.min(maximo, Math.round(valor))
+  );
+
+}
+
+
+/* ==============================
+   VARIAÇÃO PELO CELULAR
+============================== */
+
+function calcularVariacaoCelular(nome) {
+
+  let total = 0;
+
+  for (let i = 0; i < nome.length; i++) {
+
+    total += nome.charCodeAt(i) * (i + 1);
+
+  }
+
+  /*
+    Pequena variação baseada no nome do aparelho.
+    Isso faz modelos diferentes não receberem
+    exatamente o mesmo resultado.
+  */
+
+  return (total % 15) - 7;
+
+}
+
+
+/* ==============================
+   GERADOR
+============================== */
+
+function gerarSensi() {
+
+  const celular =
+    document.getElementById("celular").value.trim();
+
+  const estilo =
+    document.getElementById("estilo").value;
+
+  const mira =
+    document.getElementById("mira").value;
+
+  const modoDpi =
+    document.querySelector(
+      'input[name="dpiModo"]:checked'
+    ).value;
+
+  const dpiInput =
