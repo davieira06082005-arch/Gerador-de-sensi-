@@ -1,411 +1,384 @@
+>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Gerador de Sensi FF</title>
+<title>Gerador de Sensi FF</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #080808, #1b1b1b);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #090909, #151515);
+  color: #fff;
+}
 
-    .container {
-      width: 100%;
-      max-width: 430px;
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
-    }
+.container {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  padding: 22px 16px 40px;
+}
 
-    h1 {
-      text-align: center;
-      margin-top: 0;
-      color: #ff3030;
-    }
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+}
 
-    .subtitulo {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 25px;
-    }
+.logo {
+  font-size: 30px;
+  font-weight: 900;
+  color: #ff2b2b;
+  text-transform: uppercase;
+}
 
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 7px;
-      font-weight: bold;
-    }
+.subtitle {
+  color: #aaa;
+  font-size: 14px;
+  margin-top: 7px;
+}
 
-    input,
-    select {
-      width: 100%;
-      padding: 13px;
-      border-radius: 10px;
-      border: none;
-      background: #242424;
-      color: white;
-      font-size: 16px;
-      outline: none;
-    }
+.card {
+  background: #1b1b1b;
+  border: 1px solid #292929;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+}
 
-    input:focus,
-    select:focus {
-      box-shadow: 0 0 0 2px #ff3030;
-    }
+label,
+.section-title {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 9px;
+}
 
-    button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 20px;
-      border: none;
-      border-radius: 12px;
-      background: #ff3030;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #333;
+  border-radius: 12px;
+  background: #101010;
+  color: #fff;
+  outline: none;
+  font-size: 15px;
+}
 
-    button:active {
-      transform: scale(0.98);
-    }
+input:focus,
+select:focus {
+  border-color: #ff3030;
+}
 
-    .resultado {
-      display: none;
-      margin-top: 25px;
-      background: #1b1b1b;
-      border-radius: 15px;
-      padding: 18px;
-    }
+.help {
+  color: #888;
+  font-size: 12px;
+  margin-top: 7px;
+  line-height: 1.4;
+}
 
-    .modelo-usado {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 12px;
-      font-size: 14px;
-    }
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 
-    .sensi {
-      display: flex;
-      justify-content: space-between;
-      padding: 11px 0;
-      border-bottom: 1px solid #333;
-    }
+.option {
+  position: relative;
+}
 
-    .sensi:last-child {
-      border-bottom: none;
-    }
+.option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
 
-    .valor {
-      color: #ff3030;
-      font-size: 20px;
-      font-weight: bold;
-    }
+.option label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #333;
+  border-radius: 13px;
+  background: #101010;
+  color: #ccc;
+  cursor: pointer;
+  transition: .2s;
+}
 
-    #mensagem {
-      text-align: center;
-      color: #55ff88;
-      margin-top: 12px;
-      display: none;
-    }
-  </style>
+.option input:checked + label {
+  border-color: #ff3030;
+  background: rgba(255,48,48,.12);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255,48,48,.12);
+}
+
+.dpi-box {
+  display: none;
+  margin-top: 13px;
+}
+
+.dpi-box.active {
+  display: block;
+}
+
+.range-area {
+  margin-top: 14px;
+}
+
+.range-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.range-value {
+  color: #ff4545;
+  font-weight: bold;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #ff3030;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.generate {
+  width: 100%;
+  padding: 17px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #ff1717, #ff4848);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(255,35,35,.22);
+  transition: .2s;
+}
+
+.generate:active {
+  transform: scale(.98);
+}
+
+.result {
+  display: none;
+}
+
+.result.active {
+  display: block;
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.result-header h2 {
+  margin: 0 0 6px;
+  color: #ff3b3b;
+}
+
+.result-header p {
+  margin: 0;
+  color: #999;
+  font-size: 13px;
+}
+
+.sensi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sensi-item {
+  background: #101010;
+  border: 1px solid #292929;
+  border-radius: 14px;
+  padding: 15px;
+}
+
+.sensi-name {
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.sensi-number {
+  font-size: 29px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 7px 10px;
+  border-radius: 20px;
+  background: #262626;
+  color: #ddd;
+  font-size: 11px;
+}
+
+.tip {
+  margin-top: 14px;
+  padding: 13px;
+  border-radius: 12px;
+  background: #111;
+  border: 1px solid #292929;
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.reset {
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.warning {
+  display: none;
+  margin-top: 10px;
+  color: #ff7777;
+  font-size: 12px;
+}
+
+@media (max-width: 380px) {
+  .options,
+  .sensi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <h1>🎯 GERADOR DE SENSI</h1>
-
-    <div class="subtitulo">
-      Gere uma sensibilidade personalizada para Free Fire
+  <div class="header">
+    <div class="logo">GERADOR DE SENSI FF</div>
+    <div class="subtitle">
+      Gere uma configuração personalizada para seu estilo de jogo
     </div>
+  </div>
 
-    <label>📱 Nome exato do seu celular</label>
+  <!-- APARELHO -->
+  <div class="card">
+
+    <label for="celular">
+      📱 Nome exato do seu celular
+    </label>
 
     <input
-      type="text"
       id="celular"
-      placeholder="Ex: Samsung Galaxy A05"
+      type="text"
+      placeholder="Ex: Realme Note 70"
       autocomplete="off"
     >
 
-    <label>🎮 Seu estilo</label>
-
-    <select id="estilo">
-      <option value="rush">🔥 Rush / Capa</option>
-      <option value="equilibrado">⚡ Equilibrado</option>
-      <option value="precisao">🎯 Precisão</option>
-    </select>
-
-    <button onclick="gerarSensi()">
-      GERAR SENSI
-    </button>
-
-    <div class="resultado" id="resultado">
-
-      <div class="modelo-usado">
-        📱 Modelo: <strong id="modeloResultado"></strong>
-      </div>
-
-      <div class="sensi">
-        <span>Geral</span>
-        <span class="valor" id="geral"></span>
-      </div>
-
-      <div class="sensi">
-        <span>Ponto Vermelho</span>
-        <span class="valor" id="red"></span>
-      </div>
-
-      <div class="sensi">
-        <span>Mira 2x</span>
-        <span class="valor" id="mira2"></span>
-      </div>
-
-      <div class="sensi">
-        <span>Mira 4x</span>
-        <span class="valor" id="mira4"></span>
-      </div>
-
-      <div class="sensi">
-        <span>Mira AWM</span>
-        <span class="valor" id="awm"></span>
-      </div>
-
-      <div class="sensi">
-        <span>Olhadinha</span>
-        <span class="valor" id="olhadinha"></span>
-      </div>
-
-      <button onclick="copiarSensi()">
-        📋 COPIAR SENSI
-      </button>
-
-      <div id="mensagem">
-        Sensi copiada!
-      </div>
-
+    <div class="help">
+      Digite a marca e o modelo exatos do aparelho.
     </div>
 
   </div>
 
-<script>
+  <!-- ESTILO -->
+  <div class="card">
 
-function numero(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+    <div class="section-title">🎮 Seu estilo de jogo</div>
 
-function limitar(valor) {
-  return Math.max(0, Math.min(200, valor));
-}
+    <select id="estilo">
+      <option value="rush">🔥 Rush / Capa</option>
+      <option value="equilibrado">🎯 Equilibrado</option>
+      <option value="precisao">🎯 Precisão</option>
+      <option value="longa">🔭 Longa distância</option>
+    </select>
 
-function gerarSensi() {
+  </div>
 
-  const estilo = document.getElementById("estilo").value;
+  <!-- DPI -->
+  <div class="card">
 
-  const celularOriginal =
-    document.getElementById("celular").value.trim();
+    <div class="section-title">
+      📲 Configuração de DPI
+    </div>
 
-  if (!celularOriginal) {
-    alert("Digite o nome do seu celular primeiro!");
-    return;
-  }
+    <div class="options">
 
-  // Deixa a pesquisa independente de letras maiúsculas/minúsculas
-  const celular = celularOriginal.toLowerCase();
+      <div class="option">
+        <input
+          type="radio"
+          name="dpiModo"
+          id="semDpi"
+          value="sem"
+          checked
+        >
 
-  let geral, red, mira2, mira4, awm, olhadinha;
+        <label for="semDpi">
+          📱<br>
+          Sem DPI
+        </label>
+      </div>
 
-  /*
-    CONFIGURAÇÃO BASE POR ESTILO
-  */
+      <div class="option">
+        <input
+          type="radio"
+          name="dpiModo"
+          id="comDpi"
+          value="com"
+        >
 
-  if (estilo === "rush") {
+        <label for="comDpi">
+          ⚙️<br>
+          Com DPI
+        </label>
+      </div>
 
-    geral = numero(185, 200);
-    red = numero(175, 195);
-    mira2 = numero(165, 185);
-    mira4 = numero(150, 175);
-    awm = numero(90, 130);
-    olhadinha = numero(180, 200);
+    </div>
 
-  } else if (estilo === "equilibrado") {
+    <div class="help">
+      Sem DPI = sensibilidade pensada para o DPI padrão do aparelho.
+      Com DPI = cálculo ajustado para o DPI informado.
+    </div>
 
-    geral = numero(165, 185);
-    red = numero(155, 175);
-    mira2 = numero(145, 165);
-    mira4 = numero(130, 155);
-    awm = numero(80, 115);
-    olhadinha = numero(160, 185);
+    <div class="dpi-box" id="dpiBox">
 
-  } else {
+      <label for="dpi">
+        📊 Digite seu DPI
+      </label>
 
-    geral = numero(145, 165);
-    red = numero(135, 155);
-    mira2 = numero(125, 145);
-    mira4 = numero(110, 135);
-    awm = numero(70, 100);
-    olhadinha = numero(140, 165);
-  }
+      <input
+        id="dpi"
+        type="number"
+        min="200"
+        max="1200"
+        placeholder="Ex: 600"
+      >
 
+      <div class="help">
+        Informe o DPI que você realmente usa no celular.
+      </div>
 
-  /*
-    MODELOS ESPECÍFICOS
-
-    Aqui você pode cadastrar quantos celulares quiser.
-  */
-
-  // Samsung Galaxy A05
-  if (
-    celular.includes("a05") ||
-    celular.includes("a05s")
-  ) {
-    geral += 2;
-    red += 2;
-    mira2 += 1;
-  }
-
-  // Realme Note 70
-  if (
-    celular.includes("note 70") ||
-    celular.includes("note70")
-  ) {
-    geral += 3;
-    red += 3;
-    mira2 += 2;
-  }
-
-  // Redmi Note 13
-  if (
-    celular.includes("redmi note 13")
-  ) {
-    geral += 2;
-    red += 2;
-  }
-
-  // Moto G54
-  if (
-    celular.includes("moto g54") ||
-    celular.includes("g54")
-  ) {
-    geral += 2;
-    red += 1;
-  }
-
-  // iPhone
-  if (celular.includes("iphone")) {
-    geral -= 5;
-    red -= 5;
-  }
-
-
-  /*
-    AJUSTES POR MARCA
-
-    Só são aplicados quando nenhum
-    modelo específico acima foi encontrado.
-  */
-
-  if (
-    celular.includes("samsung") &&
-    !celular.includes("a05") &&
-    !celular.includes("a05s")
-  ) {
-    geral += 1;
-  }
-
-  if (
-    celular.includes("realme") &&
-    !celular.includes("note 70") &&
-    !celular.includes("note70")
-  ) {
-    geral += 3;
-    red += 3;
-  }
-
-  if (celular.includes("xiaomi")) {
-    red += 2;
-  }
-
-  if (celular.includes("motorola")) {
-    geral += 2;
-  }
-
-
-  /*
-    LIMITA OS VALORES
-  */
-
-  geral = limitar(geral);
-  red = limitar(red);
-  mira2 = limitar(mira2);
-  mira4 = limitar(mira4);
-  awm = limitar(awm);
-  olhadinha = limitar(olhadinha);
-
-
-  /*
-    MOSTRA O RESULTADO
-  */
-
-  document.getElementById("geral").textContent = geral;
-  document.getElementById("red").textContent = red;
-  document.getElementById("mira2").textContent = mira2;
-  document.getElementById("mira4").textContent = mira4;
-  document.getElementById("awm").textContent = awm;
-  document.getElementById("olhadinha").textContent = olhadinha;
-
-  document.getElementById("modeloResultado").textContent =
-    celularOriginal;
-
-  document.getElementById("resultado").style.display = "block";
-}
-
-
-function copiarSensi() {
-
-  const modelo =
-    document.getElementById("modeloResultado").textContent;
-
-  const texto =
-`🎯 MINHA SENSI FF
-
-📱 Celular: ${modelo}
-
-Geral: ${document.getElementById("geral").textContent}
-Ponto Vermelho: ${document.getElementById("red").textContent}
-Mira 2x: ${document.getElementById("mira2").textContent}
-Mira 4x: ${document.getElementById("mira4").textContent}
-AWM: ${document.getElementById("awm").textContent}
-Olhadinha: ${document.getElementById("olhadinha").textContent}`;
-
-  navigator.clipboard.writeText(texto);
-
-  document.getElementById("mensagem").style.display = "block";
-
-  setTimeout(() => {
-    document.getElementById("mensagem").style.display = "none";
-  }, 2000);
-}
-
-</script>
-
-</body>
-</html>
+      <div class="warning" id="dpi
