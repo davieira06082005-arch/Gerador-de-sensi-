@@ -52,6 +52,7 @@
       font-weight: bold;
     }
 
+    input,
     select {
       width: 100%;
       padding: 13px;
@@ -60,6 +61,12 @@
       background: #242424;
       color: white;
       font-size: 16px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      box-shadow: 0 0 0 2px #ff3030;
     }
 
     button {
@@ -85,6 +92,13 @@
       background: #1b1b1b;
       border-radius: 15px;
       padding: 18px;
+    }
+
+    .modelo-usado {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 12px;
+      font-size: 14px;
     }
 
     .sensi {
@@ -123,16 +137,14 @@
       Gere uma sensibilidade personalizada para Free Fire
     </div>
 
-    <label>📱 Seu celular</label>
+    <label>📱 Nome exato do seu celular</label>
 
-    <select id="celular">
-      <option value="geral">Qualquer celular</option>
-      <option value="realme">Realme</option>
-      <option value="samsung">Samsung</option>
-      <option value="xiaomi">Xiaomi</option>
-      <option value="motorola">Motorola</option>
-      <option value="iphone">iPhone</option>
-    </select>
+    <input
+      type="text"
+      id="celular"
+      placeholder="Ex: Samsung Galaxy A05"
+      autocomplete="off"
+    >
 
     <label>🎮 Seu estilo</label>
 
@@ -147,6 +159,10 @@
     </button>
 
     <div class="resultado" id="resultado">
+
+      <div class="modelo-usado">
+        📱 Modelo: <strong id="modeloResultado"></strong>
+      </div>
 
       <div class="sensi">
         <span>Geral</span>
@@ -203,9 +219,23 @@ function limitar(valor) {
 function gerarSensi() {
 
   const estilo = document.getElementById("estilo").value;
-  const celular = document.getElementById("celular").value;
+
+  const celularOriginal =
+    document.getElementById("celular").value.trim();
+
+  if (!celularOriginal) {
+    alert("Digite o nome do seu celular primeiro!");
+    return;
+  }
+
+  // Deixa a pesquisa independente de letras maiúsculas/minúsculas
+  const celular = celularOriginal.toLowerCase();
 
   let geral, red, mira2, mira4, awm, olhadinha;
+
+  /*
+    CONFIGURAÇÃO BASE POR ESTILO
+  */
 
   if (estilo === "rush") {
 
@@ -233,32 +263,95 @@ function gerarSensi() {
     mira4 = numero(110, 135);
     awm = numero(70, 100);
     olhadinha = numero(140, 165);
-
   }
 
-  /* Pequenos ajustes por fabricante */
 
-  if (celular === "realme") {
+  /*
+    MODELOS ESPECÍFICOS
+
+    Aqui você pode cadastrar quantos celulares quiser.
+  */
+
+  // Samsung Galaxy A05
+  if (
+    celular.includes("a05") ||
+    celular.includes("a05s")
+  ) {
+    geral += 2;
+    red += 2;
+    mira2 += 1;
+  }
+
+  // Realme Note 70
+  if (
+    celular.includes("note 70") ||
+    celular.includes("note70")
+  ) {
+    geral += 3;
+    red += 3;
+    mira2 += 2;
+  }
+
+  // Redmi Note 13
+  if (
+    celular.includes("redmi note 13")
+  ) {
+    geral += 2;
+    red += 2;
+  }
+
+  // Moto G54
+  if (
+    celular.includes("moto g54") ||
+    celular.includes("g54")
+  ) {
+    geral += 2;
+    red += 1;
+  }
+
+  // iPhone
+  if (celular.includes("iphone")) {
+    geral -= 5;
+    red -= 5;
+  }
+
+
+  /*
+    AJUSTES POR MARCA
+
+    Só são aplicados quando nenhum
+    modelo específico acima foi encontrado.
+  */
+
+  if (
+    celular.includes("samsung") &&
+    !celular.includes("a05") &&
+    !celular.includes("a05s")
+  ) {
+    geral += 1;
+  }
+
+  if (
+    celular.includes("realme") &&
+    !celular.includes("note 70") &&
+    !celular.includes("note70")
+  ) {
     geral += 3;
     red += 3;
   }
 
-  if (celular === "samsung") {
-    geral += 1;
-  }
-
-  if (celular === "xiaomi") {
+  if (celular.includes("xiaomi")) {
     red += 2;
   }
 
-  if (celular === "motorola") {
+  if (celular.includes("motorola")) {
     geral += 2;
   }
 
-  if (celular === "iphone") {
-    geral -= 5;
-    red -= 5;
-  }
+
+  /*
+    LIMITA OS VALORES
+  */
 
   geral = limitar(geral);
   red = limitar(red);
@@ -267,6 +360,11 @@ function gerarSensi() {
   awm = limitar(awm);
   olhadinha = limitar(olhadinha);
 
+
+  /*
+    MOSTRA O RESULTADO
+  */
+
   document.getElementById("geral").textContent = geral;
   document.getElementById("red").textContent = red;
   document.getElementById("mira2").textContent = mira2;
@@ -274,13 +372,22 @@ function gerarSensi() {
   document.getElementById("awm").textContent = awm;
   document.getElementById("olhadinha").textContent = olhadinha;
 
+  document.getElementById("modeloResultado").textContent =
+    celularOriginal;
+
   document.getElementById("resultado").style.display = "block";
 }
 
+
 function copiarSensi() {
+
+  const modelo =
+    document.getElementById("modeloResultado").textContent;
 
   const texto =
 `🎯 MINHA SENSI FF
+
+📱 Celular: ${modelo}
 
 Geral: ${document.getElementById("geral").textContent}
 Ponto Vermelho: ${document.getElementById("red").textContent}
@@ -301,4 +408,4 @@ Olhadinha: ${document.getElementById("olhadinha").textContent}`;
 </script>
 
 </body>
-  </html>
+</html>
