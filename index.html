@@ -1,27 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gerador de Sensi FF</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #090909, #151515);
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  padding: 22px 16px 40px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 900;
+  color: #ff2b2b;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  color: #aaa;
+  font-size: 14px;
+  margin-top: 7px;
+}
+
+.card {
+  background: #1b1b1b;
+  border: 1px solid #292929;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+}
+
+label,
+.section-title {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 9px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #333;
+  border-radius: 12px;
+  background: #101010;
+  color: #fff;
+  outline: none;
+  font-size: 15px;
+}
+
+input:focus,
+select:focus {
+  border-color: #ff3030;
+}
+
+.help {
+  color: #888;
+  font-size: 12px;
+  margin-top: 7px;
+  line-height: 1.4;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.option {
+  position: relative;
+}
+
+.option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #333;
+  border-radius: 13px;
+  background: #101010;
+  color: #ccc;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.option input:checked + label {
+  border-color: #ff3030;
+  background: rgba(255,48,48,.12);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255,48,48,.12);
+}
+
+.generate {
+  width: 100%;
+  padding: 17px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #ff1717, #ff4848);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(255,35,35,.22);
+}
+
+.generate:active {
+  transform: scale(.98);
+}
+
+.result {
+  display: none;
+}
+
+.result.active {
+  display: block;
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.result-header h2 {
+  margin: 0 0 6px;
+  color: #ff3b3b;
+}
+
+.result-header p {
+  margin: 0;
+  color: #999;
+  font-size: 13px;
+}
+
+.sensi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sensi-item {
+  background: #101010;
+  border: 1px solid #292929;
+  border-radius: 14px;
+  padding: 15px;
+}
+
+.sensi-name {
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.sensi-number {
+  font-size: 29px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.dpi-result {
+  margin-top: 14px;
+  padding: 15px;
+  border-radius: 14px;
+  background: #101010;
+  border: 1px solid #292929;
+  text-align: center;
+}
+
+.dpi-result .dpi-title {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.dpi-result .dpi-number {
+  margin-top: 5px;
+  font-size: 28px;
+  font-weight: 900;
+  color: #ff3b3b;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 7px 10px;
+  border-radius: 20px;
+  background: #262626;
+  color: #ddd;
+  font-size: 11px;
+}
+
+.tip {
+  margin-top: 14px;
+  padding: 13px;
+  border-radius: 12px;
+  background: #111;
+  border: 1px solid #292929;
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.reset {
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+}
+
+@media (max-width: 380px) {
+  .options,
+  .sensi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="logo">GERADOR DE SENSI FF</div>
+
+    <div class="subtitle">
+      Gere uma configuração personalizada para seu estilo de jogo
+    </div>
+  </div>
+
+  <!-- CELULAR -->
+  <div class="card">
+
+    <label for="celular">
+      📱 Marca e modelo do celular
+    </label>
+
+    <input
+      id="celular"
+      type="text"
+      placeholder="Ex: Realme Note 70"
+      value="Realme Note 70"
+      autocomplete="off"
+    >
+
+    <div class="help">
+      Digite a marca e o modelo do aparelho.
+    </div>
+
+  </div>
+
+
+  <!-- MIRA -->
+  <div class="card">
+
+    <div class="section-title">
+      🎯 Tipo de mira
+    </div>
+
+    <select id="mira">
+
+      <option value="capa">
+        🔥 Capa / Headshot
+      </option>
+
+      <option value="rapida">
+        ⚡ Mira rápida
+      </option>
+
+      <option value="equilibrada">
+        🎯 Mira equilibrada
+      </option>
+
+      <option value="precisa">
+        🎯 Mira precisa
+      </option>
+
+      <option value="longa">
+        🔭 Longa distância
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <!-- DPI -->
+  <div class="card">
+
+    <div class="section-title">
+      📲 DPI
+    </div>
+
+    <div class="options">
+
+      <div class="option">
+
+        <input
+          type="radio"
+          name="dpiModo"
+          id="semDpi"
+          value="sem"
+          checked
+        >
+
+        <label for="semDpi">
+          📱<br>
+          Sem DPI
+        </label>
+
+      </div>
+
+
+      <div class="option">
+
+        <input
+          type="radio"
+          name="dpiModo"
+          id="comDpi"
+          value="com"
+        >
+
+        <label for="comDpi">
+          ⚙️<br>
+          Com DPI
+        </label>
+
+      </div>
+
+    </div>
+
+    <div class="help">
+      Com DPI = o gerador recomenda um DPI para o seu aparelho.
+      Sem DPI = mostra somente a sensibilidade.
+    </div>
+
+  </div>
+
+
+  <!-- BOTÃO -->
+  <div class="card">
+
+    <button
+      type="button"
+      class="generate"
+      id="botaoGerar"
+    >
+      🔥 GERAR MINHA SENSI
+    </button>
+
+  </div>
+
+
+  <!-- RESULTADO -->
+  <div
+    class="card result"
+    id="resultado"
+  >
+
+    <div class="result-header">
+
+      <h2>
+        🎯 SUA SENSI FOI GERADA
+      </h2>
+
+      <p id="resumo">
+        Configuração personalizada
+      </p>
+
+    </div>
+
+
+    <div class="sensi-grid">
+
+      <div class="sensi-item">
+        <div class="sensi-name">Geral</div>
+        <div class="sensi-number" id="geral">0</div>
+      </div>
+
+      <div class="sensi-item">
+        <div class="sensi-name">Ponto Vermelho</div>
+        <div class="sensi-number" id="redDot">0</div>
+      </div>
+
+      <div class="sensi-item">
+        <div class="sensi-name">Mira 2x</div>
+        <div class="sensi-number" id="mira2x">0</div>
+      </div>
+
+      <div class="sensi-item">
+        <div class="sensi-name">Mira 4x</div>
+        <div class="sensi-number" id="mira4x">0</div>
+      </div>
+
+      <div class="sensi-item">
+        <div class="sensi-name">Mira AWM</div>
+        <div class="sensi-number" id="awm">0</div>
+      </div>
+
+      <div class="sensi-item">
+        <div class="sensi-name">Olhadinha</div>
+        <div class="sensi-number" id="olhadinha">0</div>
+      </div>
+
+    </div>
+
+
+    <!-- DPI RECOMENDADO -->
+    <div
+      class="dpi-result"
+      id="dpiResultado"
+      style="display:none;"
+    >
+
+      <div class="dpi-title">
+        ⚙️ DPI RECOMENDADO
+      </div>
+
+      <div
+        class="dpi-number"
+        id="dpiNumero"
+      >
+        600
+      </div>
+
+    </div>
+
+
+    <div class="badge">
+      🔥 Configuração personalizada
+    </div>
+
+
+    <div class="tip">
+      💡 Essa configuração é uma base. Faça pequenos ajustes
+      conforme seu HUD e sua forma de jogar.
+    </div>
+
+
+    <button
+      type="button"
+      class="reset"
+      id="botaoNovamente"
+    >
+      🔄 Gerar novamente
+    </button>
+
+  </div>
+
+</div>
+
+
 <script>
 
 /* ==============================
-   MOSTRAR / ESCONDER DPI
+   FUNÇÕES
 ============================== */
 
-const semDpi = document.getElementById("semDpi");
-const comDpi = document.getElementById("comDpi");
-const dpiBox = document.getElementById("dpiBox");
-
-semDpi.addEventListener("change", function () {
-  dpiBox.classList.remove("active");
-});
-
-comDpi.addEventListener("change", function () {
-  dpiBox.classList.add("active");
-});
-
-
-/* ==============================
-   LIMITAR VALORES
-============================== */
-
-function limitar(valor, minimo = 0, maximo = 200) {
+function limitar(valor, minimo, maximo) {
   return Math.max(
     minimo,
     Math.min(maximo, Math.round(valor))
@@ -29,11 +500,7 @@ function limitar(valor, minimo = 0, maximo = 200) {
 }
 
 
-/* ==============================
-   VARIAÇÃO PELO CELULAR
-============================== */
-
-function calcularVariacaoCelular(nome) {
+function variacaoCelular(nome) {
 
   let total = 0;
 
@@ -41,21 +508,49 @@ function calcularVariacaoCelular(nome) {
     total += nome.charCodeAt(i) * (i + 1);
   }
 
-  return (total % 15) - 7;
+  return (total % 11) - 5;
+}
+
+
+function dpiRecomendado(nome) {
+
+  const texto = nome.toLowerCase();
+
+  if (
+    texto.includes("iphone") ||
+    texto.includes("samsung s") ||
+    texto.includes("galaxy s")
+  ) {
+    return 600;
+  }
+
+  if (
+    texto.includes("realme") ||
+    texto.includes("redmi") ||
+    texto.includes("poco")
+  ) {
+    return 560;
+  }
+
+  if (
+    texto.includes("motorola") ||
+    texto.includes("moto")
+  ) {
+    return 550;
+  }
+
+  return 600;
 }
 
 
 /* ==============================
-   GERADOR DE SENSI
+   GERAR SENSI
 ============================== */
 
 function gerarSensi() {
 
   const celular =
     document.getElementById("celular").value.trim();
-
-  const estilo =
-    document.getElementById("estilo").value;
 
   const mira =
     document.getElementById("mira").value;
@@ -65,17 +560,10 @@ function gerarSensi() {
       'input[name="dpiModo"]:checked'
     ).value;
 
-  const dpiInput =
-    document.getElementById("dpi");
-
-  const dpiWarning =
-    document.getElementById("dpiWarning");
-
-  /* Verifica celular */
 
   if (celular === "") {
 
-    alert("Digite o nome do seu celular.");
+    alert("Digite a marca e o modelo do seu celular.");
 
     document.getElementById("celular").focus();
 
@@ -83,9 +571,7 @@ function gerarSensi() {
   }
 
 
-  /* ==============================
-     VALOR BASE
-  ============================== */
+  /* Valores base */
 
   let geral = 190;
   let redDot = 185;
@@ -95,75 +581,25 @@ function gerarSensi() {
   let olhadinha = 180;
 
 
-  /* ==============================
-     AJUSTE PELO ESTILO
-  ============================== */
+  /* Ajuste pelo tipo de mira */
 
-  if (estilo === "rush") {
+  if (mira === "capa") {
 
     geral += 6;
     redDot += 7;
     mira2x += 5;
     mira4x += 3;
-    awm += 2;
-    olhadinha += 6;
-
-  }
-
-  else if (estilo === "equilibrado") {
-
-    geral += 2;
-    redDot += 2;
-    mira2x += 1;
-    mira4x += 1;
-    awm += 1;
-    olhadinha += 2;
-
-  }
-
-  else if (estilo === "precisao") {
-
-    geral -= 3;
-    redDot -= 2;
-    mira2x -= 2;
-    mira4x += 1;
-    awm += 4;
-    olhadinha -= 2;
-
-  }
-
-  else if (estilo === "longa") {
-
-    geral -= 7;
-    redDot -= 5;
-    mira2x -= 4;
-    mira4x -= 2;
-    awm += 7;
-    olhadinha -= 5;
-
-  }
-
-
-  /* ==============================
-     AJUSTE PELO TIPO DE MIRA
-  ============================== */
-
-  if (mira === "capa") {
-
-    geral += 5;
-    redDot += 6;
-    mira2x += 4;
-    olhadinha += 4;
+    olhadinha += 5;
 
   }
 
   else if (mira === "rapida") {
 
-    geral += 7;
-    redDot += 5;
-    mira2x += 4;
-    mira4x += 2;
-    olhadinha += 6;
+    geral += 8;
+    redDot += 6;
+    mira2x += 5;
+    mira4x += 3;
+    olhadinha += 7;
 
   }
 
@@ -177,32 +613,30 @@ function gerarSensi() {
 
   else if (mira === "precisa") {
 
-    geral -= 3;
-    redDot -= 2;
+    geral -= 4;
+    redDot -= 3;
     mira2x -= 2;
     mira4x -= 1;
-    awm += 3;
+    awm += 4;
 
   }
 
   else if (mira === "longa") {
 
-    geral -= 6;
-    redDot -= 4;
-    mira2x -= 3;
+    geral -= 7;
+    redDot -= 5;
+    mira2x -= 4;
     mira4x -= 2;
-    awm += 6;
+    awm += 7;
     olhadinha -= 4;
 
   }
 
 
-  /* ==============================
-     AJUSTE PELO CELULAR
-  ============================== */
+  /* Ajuste pelo celular */
 
   const variacao =
-    calcularVariacaoCelular(celular);
+    variacaoCelular(celular);
 
   geral += variacao;
   redDot += variacao;
@@ -212,53 +646,32 @@ function gerarSensi() {
   olhadinha += variacao;
 
 
-  /* ==============================
-     AJUSTE PELO DPI
-  ============================== */
+  /* DPI recomendado */
+
+  const dpi =
+    dpiRecomendado(celular);
+
+
+  /*
+    Se o usuário escolheu Com DPI,
+    ajustamos levemente a sensibilidade.
+  */
 
   if (modoDpi === "com") {
 
-    const dpi = Number(dpiInput.value);
+    const ajuste =
+      Math.round((600 - dpi) / 20);
 
-    if (
-      !dpi ||
-      dpi < 200 ||
-      dpi > 1200
-    ) {
-
-      dpiWarning.style.display = "block";
-
-      dpiInput.focus();
-
-      return;
-
-    }
-
-    dpiWarning.style.display = "none";
-
-
-    /*
-      DPI 600 é considerado o ponto central.
-      DPI maior = sensibilidade um pouco menor.
-      DPI menor = sensibilidade um pouco maior.
-    */
-
-    const ajusteDpi =
-      Math.round((600 - dpi) / 100);
-
-    geral += ajusteDpi;
-    redDot += ajusteDpi;
-    mira2x += ajusteDpi;
-    mira4x += ajusteDpi;
-    awm += Math.round(ajusteDpi / 2);
-    olhadinha += ajusteDpi;
+    geral += ajuste;
+    redDot += ajuste;
+    mira2x += ajuste;
+    mira4x += ajuste;
+    olhadinha += ajuste;
 
   }
 
 
-  /* ==============================
-     LIMITAR RESULTADOS
-  ============================== */
+  /* Limitar */
 
   geral = limitar(geral, 0, 200);
   redDot = limitar(redDot, 0, 200);
@@ -268,9 +681,7 @@ function gerarSensi() {
   olhadinha = limitar(olhadinha, 0, 200);
 
 
-  /* ==============================
-     MOSTRAR RESULTADO
-  ============================== */
+  /* Colocar resultados na tela */
 
   document.getElementById("geral").textContent =
     geral;
@@ -291,29 +702,35 @@ function gerarSensi() {
     olhadinha;
 
 
-  /* ==============================
-     RESUMO
-  ============================== */
+  /* DPI */
 
-  let textoDpi = "Sem DPI";
+  const dpiResultado =
+    document.getElementById("dpiResultado");
 
   if (modoDpi === "com") {
-    textoDpi = "DPI " + dpiInput.value;
+
+    document.getElementById("dpiNumero").textContent =
+      dpi;
+
+    dpiResultado.style.display = "block";
+
+  } else {
+
+    dpiResultado.style.display = "none";
+
   }
 
+
+  /* Resumo */
+
   document.getElementById("resumo").textContent =
-    celular +
-    " • " +
-    textoDpi +
-    " • " +
-    estilo +
+    celular + " • " +
+    (modoDpi === "com" ? "Com DPI" : "Sem DPI") +
     " • " +
     mira;
 
 
-  /* ==============================
-     MOSTRA O CARD
-  ============================== */
+  /* Mostrar resultado */
 
   const resultado =
     document.getElementById("resultado");
@@ -329,21 +746,30 @@ function gerarSensi() {
 
 
 /* ==============================
-   GERAR NOVAMENTE
+   BOTÕES
 ============================== */
 
-function novaSensi() {
+document
+  .getElementById("botaoGerar")
+  .addEventListener("click", gerarSensi);
 
-  const resultado =
-    document.getElementById("resultado");
 
-  resultado.classList.remove("active");
+document
+  .getElementById("botaoNovamente")
+  .addEventListener("click", function () {
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    document
+      .getElementById("resultado")
+      .classList.remove("active");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
   });
 
-}
+</script>
 
-  </script>
+</body>
+   </html>
