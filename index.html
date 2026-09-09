@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Gerador de Sensi FF</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #080808, #1b1b1b);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      color: #ff3030;
+    }
+
+    .subtitulo {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      border: none;
+      background: #242424;
+      color: white;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 12px;
+      background: #ff3030;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .resultado {
+      display: none;
+      margin-top: 25px;
+      background: #1b1b1b;
+      border-radius: 15px;
+      padding: 18px;
+    }
+
+    .sensi {
+      display: flex;
+      justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px solid #333;
+    }
+
+    .sensi:last-child {
+      border-bottom: none;
+    }
+
+    .valor {
+      color: #ff3030;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    #mensagem {
+      text-align: center;
+      color: #55ff88;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>🎯 GERADOR DE SENSI</h1>
+
+    <div class="subtitulo">
+      Gere uma sensibilidade personalizada para Free Fire
+    </div>
+
+    <label>📱 Seu celular</label>
+
+    <select id="celular">
+      <option value="geral">Qualquer celular</option>
+      <option value="realme">Realme</option>
+      <option value="samsung">Samsung</option>
+      <option value="xiaomi">Xiaomi</option>
+      <option value="motorola">Motorola</option>
+      <option value="iphone">iPhone</option>
+    </select>
+
+    <label>🎮 Seu estilo</label>
+
+    <select id="estilo">
+      <option value="rush">🔥 Rush / Capa</option>
+      <option value="equilibrado">⚡ Equilibrado</option>
+      <option value="precisao">🎯 Precisão</option>
+    </select>
+
+    <button onclick="gerarSensi()">
+      GERAR SENSI
+    </button>
+
+    <div class="resultado" id="resultado">
+
+      <div class="sensi">
+        <span>Geral</span>
+        <span class="valor" id="geral"></span>
+      </div>
+
+      <div class="sensi">
+        <span>Ponto Vermelho</span>
+        <span class="valor" id="red"></span>
+      </div>
+
+      <div class="sensi">
+        <span>Mira 2x</span>
+        <span class="valor" id="mira2"></span>
+      </div>
+
+      <div class="sensi">
+        <span>Mira 4x</span>
+        <span class="valor" id="mira4"></span>
+      </div>
+
+      <div class="sensi">
+        <span>Mira AWM</span>
+        <span class="valor" id="awm"></span>
+      </div>
+
+      <div class="sensi">
+        <span>Olhadinha</span>
+        <span class="valor" id="olhadinha"></span>
+      </div>
+
+      <button onclick="copiarSensi()">
+        📋 COPIAR SENSI
+      </button>
+
+      <div id="mensagem">
+        Sensi copiada!
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+
+function numero(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function limitar(valor) {
+  return Math.max(0, Math.min(200, valor));
+}
+
+function gerarSensi() {
+
+  const estilo = document.getElementById("estilo").value;
+  const celular = document.getElementById("celular").value;
+
+  let geral, red, mira2, mira4, awm, olhadinha;
+
+  if (estilo === "rush") {
+
+    geral = numero(185, 200);
+    red = numero(175, 195);
+    mira2 = numero(165, 185);
+    mira4 = numero(150, 175);
+    awm = numero(90, 130);
+    olhadinha = numero(180, 200);
+
+  } else if (estilo === "equilibrado") {
+
+    geral = numero(165, 185);
+    red = numero(155, 175);
+    mira2 = numero(145, 165);
+    mira4 = numero(130, 155);
+    awm = numero(80, 115);
+    olhadinha = numero(160, 185);
+
+  } else {
+
+    geral = numero(145, 165);
+    red = numero(135, 155);
+    mira2 = numero(125, 145);
+    mira4 = numero(110, 135);
+    awm = numero(70, 100);
+    olhadinha = numero(140, 165);
+
+  }
+
+  /* Pequenos ajustes por fabricante */
+
+  if (celular === "realme") {
+    geral += 3;
+    red += 3;
+  }
+
+  if (celular === "samsung") {
+    geral += 1;
+  }
+
+  if (celular === "xiaomi") {
+    red += 2;
+  }
+
+  if (celular === "motorola") {
+    geral += 2;
+  }
+
+  if (celular === "iphone") {
+    geral -= 5;
+    red -= 5;
+  }
+
+  geral = limitar(geral);
+  red = limitar(red);
+  mira2 = limitar(mira2);
+  mira4 = limitar(mira4);
+  awm = limitar(awm);
+  olhadinha = limitar(olhadinha);
+
+  document.getElementById("geral").textContent = geral;
+  document.getElementById("red").textContent = red;
+  document.getElementById("mira2").textContent = mira2;
+  document.getElementById("mira4").textContent = mira4;
+  document.getElementById("awm").textContent = awm;
+  document.getElementById("olhadinha").textContent = olhadinha;
+
+  document.getElementById("resultado").style.display = "block";
+}
+
+function copiarSensi() {
+
+  const texto =
+`🎯 MINHA SENSI FF
+
+Geral: ${document.getElementById("geral").textContent}
+Ponto Vermelho: ${document.getElementById("red").textContent}
+Mira 2x: ${document.getElementById("mira2").textContent}
+Mira 4x: ${document.getElementById("mira4").textContent}
+AWM: ${document.getElementById("awm").textContent}
+Olhadinha: ${document.getElementById("olhadinha").textContent}`;
+
+  navigator.clipboard.writeText(texto);
+
+  document.getElementById("mensagem").style.display = "block";
+
+  setTimeout(() => {
+    document.getElementById("mensagem").style.display = "none";
+  }, 2000);
+}
+
+</script>
+
+</body>
+  </html>
