@@ -3,251 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Gerador de Sensi FF</title>
 
 <style>
 * {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(180deg, #090909, #151515);
-  color: #fff;
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #090909, #151515);
+    color: white;
+    font-family: Arial, sans-serif;
 }
 
 .container {
-  width: 100%;
-  max-width: 520px;
-  margin: auto;
-  padding: 22px 16px 40px;
+    width: 100%;
+    max-width: 520px;
+    margin: auto;
+    padding: 22px 16px 40px;
 }
 
 .header {
-  text-align: center;
-  margin-bottom: 24px;
+    text-align: center;
+    margin-bottom: 24px;
 }
 
 .logo {
-  font-size: 30px;
-  font-weight: 900;
-  color: #ff2b2b;
-  text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 900;
+    color: #ff2b2b;
+    text-transform: uppercase;
 }
 
 .subtitle {
-  color: #aaa;
-  font-size: 14px;
-  margin-top: 7px;
+    color: #aaa;
+    font-size: 14px;
+    margin-top: 7px;
 }
 
 .card {
-  background: #1b1b1b;
-  border: 1px solid #292929;
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+    background: #1b1b1b;
+    border: 1px solid #292929;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 15px;
 }
 
-label,
-.section-title {
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 9px;
+label {
+    display: block;
+    color: #ddd;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 8px;
 }
 
-input,
 select {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #333;
-  border-radius: 12px;
-  background: #101010;
-  color: #fff;
-  outline: none;
-  font-size: 15px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    background: #101010;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    margin-bottom: 16px;
 }
 
-input:focus,
-select:focus {
-  border-color: #ff3030;
+button {
+    width: 100%;
+    border: 0;
+    border-radius: 13px;
+    padding: 16px;
+    background: #ff2b2b;
+    color: white;
+    font-size: 17px;
+    font-weight: 900;
+    cursor: pointer;
 }
 
-.help {
-  color: #888;
-  font-size: 12px;
-  margin-top: 7px;
-  line-height: 1.4;
+button:active {
+    transform: scale(.98);
 }
 
-.options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+.resultado {
+    display: none;
 }
 
-.option {
-  position: relative;
+.aparelho {
+    text-align: center;
+    color: #ff4444;
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 5px;
 }
 
-.option input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+.info {
+    text-align: center;
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 18px;
 }
 
-.option label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 58px;
-  margin: 0;
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #333;
-  border-radius: 13px;
-  background: #101010;
-  color: #ccc;
-  cursor: pointer;
-  transition: .2s;
+.sensi {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
-.option input:checked + label {
-  border-color: #ff3030;
-  background: rgba(255,48,48,.12);
-  color: #fff;
-  box-shadow: 0 0 12px rgba(255,48,48,.12);
+.item {
+    background: #101010;
+    border: 1px solid #292929;
+    border-radius: 12px;
+    padding: 13px;
+    text-align: center;
 }
 
-.generate {
-  width: 100%;
-  padding: 17px;
-  border: 0;
-  border-radius: 14px;
-  background: linear-gradient(90deg, #ff1717, #ff4848);
-  color: #fff;
-  font-size: 17px;
-  font-weight: 900;
-  cursor: pointer;
-  box-shadow: 0 8px 22px rgba(255,35,35,.22);
+.item span {
+    display: block;
+    color: #999;
+    font-size: 12px;
+    margin-bottom: 5px;
 }
 
-.generate:active {
-  transform: scale(.98);
+.item strong {
+    color: white;
+    font-size: 22px;
 }
 
-.result {
-  display: none;
+.dpi {
+    margin-top: 12px;
+    background: #101010;
+    border: 1px solid #292929;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
 }
 
-.result.active {
-  display: block;
+.dpi span {
+    display: block;
+    color: #999;
+    font-size: 12px;
 }
 
-.result-header {
-  text-align: center;
-  margin-bottom: 15px;
+.dpi strong {
+    color: #ff4444;
+    font-size: 25px;
 }
 
-.result-header h2 {
-  margin: 0 0 6px;
-  color: #ff3b3b;
-}
-
-.result-header p {
-  margin: 0;
-  color: #999;
-  font-size: 13px;
-}
-
-.sensi-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.sensi-item {
-  background: #101010;
-  border: 1px solid #292929;
-  border-radius: 14px;
-  padding: 15px;
-}
-
-.sensi-name {
-  color: #aaa;
-  font-size: 13px;
-  margin-bottom: 5px;
-}
-
-.sensi-number {
-  font-size: 29px;
-  font-weight: 900;
-  color: #fff;
-}
-
-.dpi-result {
-  margin-top: 14px;
-  padding: 15px;
-  border-radius: 14px;
-  background: #101010;
-  border: 1px solid #292929;
-  text-align: center;
-}
-
-.dpi-result .dpi-title {
-  color: #aaa;
-  font-size: 13px;
-}
-
-.dpi-result .dpi-number {
-  margin-top: 5px;
-  font-size: 28px;
-  font-weight: 900;
-  color: #ff3b3b;
-}
-
-.badge {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 7px 10px;
-  border-radius: 20px;
-  background: #262626;
-  color: #ddd;
-  font-size: 11px;
-}
-
-.tip {
-  margin-top: 14px;
-  padding: 13px;
-  border-radius: 12px;
-  background: #111;
-  border: 1px solid #292929;
-  color: #aaa;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.reset {
-  width: 100%;
-  margin-top: 12px;
-  padding: 13px;
-  border-radius: 12px;
-  border: 1px solid #333;
-  background: transparent;
-  color: #aaa;
-  cursor: pointer;
-}
-
-@media (max-width: 380px) {
-  .options,
-  .sensi-grid {
-    grid-template-columns: 1fr;
-  }
+.geracao {
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+    margin-top: 15px;
 }
 </style>
 </head>
@@ -256,520 +165,502 @@ select:focus {
 
 <div class="container">
 
-  <div class="header">
-    <div class="logo">GERADOR DE SENSI FF</div>
-
-    <div class="subtitle">
-      Gere uma configuração personalizada para seu estilo de jogo
-    </div>
-  </div>
-
-  <!-- CELULAR -->
-  <div class="card">
-
-    <label for="celular">
-      📱 Marca e modelo do celular
-    </label>
-
-    <input
-      id="celular"
-      type="text"
-      placeholder="Ex: Realme Note 70"
-      value="Realme Note 70"
-      autocomplete="off"
-    >
-
-    <div class="help">
-      Digite a marca e o modelo do aparelho.
+    <div class="header">
+        <div class="logo">Gerador de Sensi FF</div>
+        <div class="subtitle">
+            Sensibilidades focadas em puxada de capa
+        </div>
     </div>
 
-  </div>
+    <div class="card">
 
+        <label>📱 Marca e modelo</label>
 
-  <!-- MIRA -->
-  <div class="card">
+        <select id="celular">
+            <option value="realme_note70">Realme Note 70</option>
+            <option value="realme_c75">Realme C75</option>
+            <option value="realme_c71">Realme C71</option>
+            <option value="realme_c61">Realme C61</option>
+            <option value="samsung_a15">Samsung Galaxy A15</option>
+            <option value="samsung_a16">Samsung Galaxy A16</option>
+            <option value="samsung_a25">Samsung Galaxy A25</option>
+            <option value="samsung_a35">Samsung Galaxy A35</option>
+            <option value="xiaomi_redmi13c">Redmi 13C</option>
+            <option value="xiaomi_note13">Redmi Note 13</option>
+            <option value="motorola_g54">Moto G54</option>
+            <option value="motorola_g84">Moto G84</option>
+            <option value="iphone11">iPhone 11</option>
+            <option value="iphone12">iPhone 12</option>
+            <option value="iphone13">iPhone 13</option>
+        </select>
 
-    <div class="section-title">
-      🎯 Tipo de mira
-    </div>
+        <label>🎯 Tipo de mira</label>
 
-    <select id="mira">
+        <select id="mira">
+            <option value="capa">Puxada de capa</option>
+            <option value="precisao">Capa + precisão</option>
+            <option value="red_dot">Red Dot</option>
+            <option value="geral">Geral</option>
+        </select>
 
-      <option value="capa">
-        🔥 Capa / Headshot
-      </option>
+        <label>📲 DPI</label>
 
-      <option value="rapida">
-        ⚡ Mira rápida
-      </option>
+        <select id="modoDpi">
+            <option value="sem">Sem DPI</option>
+            <option value="com">Com DPI</option>
+        </select>
 
-      <option value="equilibrada">
-        🎯 Mira equilibrada
-      </option>
-
-      <option value="precisa">
-        🎯 Mira precisa
-      </option>
-
-      <option value="longa">
-        🔭 Longa distância
-      </option>
-
-    </select>
-
-  </div>
-
-
-  <!-- DPI -->
-  <div class="card">
-
-    <div class="section-title">
-      📲 DPI
-    </div>
-
-    <div class="options">
-
-      <div class="option">
-
-        <input
-          type="radio"
-          name="dpiModo"
-          id="semDpi"
-          value="sem"
-          checked
-        >
-
-        <label for="semDpi">
-          📱<br>
-          Sem DPI
-        </label>
-
-      </div>
-
-
-      <div class="option">
-
-        <input
-          type="radio"
-          name="dpiModo"
-          id="comDpi"
-          value="com"
-        >
-
-        <label for="comDpi">
-          ⚙️<br>
-          Com DPI
-        </label>
-
-      </div>
+        <button onclick="gerarSensi()">
+            🔥 GERAR MINHA SENSI
+        </button>
 
     </div>
 
-    <div class="help">
-      Com DPI = o gerador recomenda um DPI para o seu aparelho.
-      Sem DPI = mostra somente a sensibilidade.
-    </div>
+    <div class="card resultado" id="resultado">
 
-  </div>
+        <div class="aparelho" id="nomeAparelho"></div>
 
+        <div class="info" id="descricao"></div>
 
-  <!-- BOTÃO -->
-  <div class="card">
+        <div class="sensi">
 
-    <button
-      type="button"
-      class="generate"
-      id="botaoGerar"
-    >
-      🔥 GERAR MINHA SENSI
-    </button>
+            <div class="item">
+                <span>Geral</span>
+                <strong id="geral"></strong>
+            </div>
 
-  </div>
+            <div class="item">
+                <span>Ponto Vermelho</span>
+                <strong id="redDot"></strong>
+            </div>
 
+            <div class="item">
+                <span>Mira 2x</span>
+                <strong id="mira2x"></strong>
+            </div>
 
-  <!-- RESULTADO -->
-  <div
-    class="card result"
-    id="resultado"
-  >
+            <div class="item">
+                <span>Mira 4x</span>
+                <strong id="mira4x"></strong>
+            </div>
 
-    <div class="result-header">
+            <div class="item">
+                <span>AWM</span>
+                <strong id="awm"></strong>
+            </div>
 
-      <h2>
-        🎯 SUA SENSI FOI GERADA
-      </h2>
+            <div class="item">
+                <span>Olhadinha</span>
+                <strong id="olhadinha"></strong>
+            </div>
 
-      <p id="resumo">
-        Configuração personalizada
-      </p>
+        </div>
 
-    </div>
+        <div class="dpi" id="boxDpi">
+            <span>DPI recomendada</span>
+            <strong id="dpi"></strong>
+        </div>
 
-
-    <div class="sensi-grid">
-
-      <div class="sensi-item">
-        <div class="sensi-name">Geral</div>
-        <div class="sensi-number" id="geral">0</div>
-      </div>
-
-      <div class="sensi-item">
-        <div class="sensi-name">Ponto Vermelho</div>
-        <div class="sensi-number" id="redDot">0</div>
-      </div>
-
-      <div class="sensi-item">
-        <div class="sensi-name">Mira 2x</div>
-        <div class="sensi-number" id="mira2x">0</div>
-      </div>
-
-      <div class="sensi-item">
-        <div class="sensi-name">Mira 4x</div>
-        <div class="sensi-number" id="mira4x">0</div>
-      </div>
-
-      <div class="sensi-item">
-        <div class="sensi-name">Mira AWM</div>
-        <div class="sensi-number" id="awm">0</div>
-      </div>
-
-      <div class="sensi-item">
-        <div class="sensi-name">Olhadinha</div>
-        <div class="sensi-number" id="olhadinha">0</div>
-      </div>
+        <div class="geracao" id="geracao"></div>
 
     </div>
-
-
-    <!-- DPI RECOMENDADO -->
-    <div
-      class="dpi-result"
-      id="dpiResultado"
-      style="display:none;"
-    >
-
-      <div class="dpi-title">
-        ⚙️ DPI RECOMENDADO
-      </div>
-
-      <div
-        class="dpi-number"
-        id="dpiNumero"
-      >
-        600
-      </div>
-
-    </div>
-
-
-    <div class="badge">
-      🔥 Configuração personalizada
-    </div>
-
-
-    <div class="tip">
-      💡 Essa configuração é uma base. Faça pequenos ajustes
-      conforme seu HUD e sua forma de jogar.
-    </div>
-
-
-    <button
-      type="button"
-      class="reset"
-      id="botaoNovamente"
-    >
-      🔄 Gerar novamente
-    </button>
-
-  </div>
 
 </div>
 
-
 <script>
 
-/* ==============================
-   FUNÇÕES
-============================== */
+/*
+    PERFIS DOS APARELHOS
 
-function limitar(valor, minimo, maximo) {
-  return Math.max(
-    minimo,
-    Math.min(maximo, Math.round(valor))
-  );
+    Os números são faixas de geração.
+    O gerador escolhe valores diferentes dentro
+    dessas faixas a cada clique.
+
+    Isso evita repetir sempre a mesma configuração.
+*/
+
+const aparelhos = {
+
+    realme_note70: {
+        nome: "Realme Note 70",
+        geral: [184, 198],
+        red: [178, 194],
+        x2: [168, 186],
+        x4: [155, 176],
+        awm: [105, 132],
+        olho: [145, 165],
+        dpi: [420, 520]
+    },
+
+    realme_c75: {
+        nome: "Realme C75",
+        geral: [182, 197],
+        red: [176, 192],
+        x2: [166, 184],
+        x4: [153, 174],
+        awm: [105, 130],
+        olho: [143, 163],
+        dpi: [420, 520]
+    },
+
+    realme_c71: {
+        nome: "Realme C71",
+        geral: [180, 196],
+        red: [175, 191],
+        x2: [164, 183],
+        x4: [152, 173],
+        awm: [103, 129],
+        olho: [142, 162],
+        dpi: [400, 520]
+    },
+
+    realme_c61: {
+        nome: "Realme C61",
+        geral: [178, 194],
+        red: [172, 190],
+        x2: [162, 181],
+        x4: [150, 171],
+        awm: [100, 128],
+        olho: [140, 160],
+        dpi: [400, 520]
+    },
+
+    samsung_a15: {
+        nome: "Samsung Galaxy A15",
+        geral: [180, 195],
+        red: [174, 190],
+        x2: [164, 182],
+        x4: [152, 172],
+        awm: [102, 130],
+        olho: [142, 162],
+        dpi: [420, 540]
+    },
+
+    samsung_a16: {
+        nome: "Samsung Galaxy A16",
+        geral: [181, 196],
+        red: [175, 191],
+        x2: [165, 183],
+        x4: [153, 173],
+        awm: [103, 130],
+        olho: [143, 163],
+        dpi: [420, 540]
+    },
+
+    samsung_a25: {
+        nome: "Samsung Galaxy A25",
+        geral: [178, 193],
+        red: [172, 189],
+        x2: [162, 181],
+        x4: [150, 171],
+        awm: [100, 127],
+        olho: [140, 160],
+        dpi: [420, 560]
+    },
+
+    samsung_a35: {
+        nome: "Samsung Galaxy A35",
+        geral: [176, 192],
+        red: [170, 188],
+        x2: [160, 180],
+        x4: [148, 169],
+        awm: [98, 125],
+        olho: [138, 158],
+        dpi: [420, 560]
+    },
+
+    xiaomi_redmi13c: {
+        nome: "Redmi 13C",
+        geral: [183, 198],
+        red: [177, 193],
+        x2: [167, 185],
+        x4: [154, 175],
+        awm: [105, 132],
+        olho: [145, 165],
+        dpi: [400, 520]
+    },
+
+    xiaomi_note13: {
+        nome: "Redmi Note 13",
+        geral: [178, 194],
+        red: [172, 189],
+        x2: [162, 181],
+        x4: [150, 171],
+        awm: [100, 128],
+        olho: [140, 160],
+        dpi: [420, 560]
+    },
+
+    motorola_g54: {
+        nome: "Moto G54",
+        geral: [180, 196],
+        red: [174, 191],
+        x2: [164, 183],
+        x4: [152, 173],
+        awm: [102, 130],
+        olho: [142, 162],
+        dpi: [420, 540]
+    },
+
+    motorola_g84: {
+        nome: "Moto G84",
+        geral: [178, 194],
+        red: [172, 189],
+        x2: [162, 181],
+        x4: [150, 171],
+        awm: [100, 128],
+        olho: [140, 160],
+        dpi: [420, 560]
+    },
+
+    iphone11: {
+        nome: "iPhone 11",
+        geral: [170, 186],
+        red: [164, 181],
+        x2: [154, 173],
+        x4: [143, 164],
+        awm: [95, 120],
+        olho: [135, 153],
+        dpi: [0, 0]
+    },
+
+    iphone12: {
+        nome: "iPhone 12",
+        geral: [168, 184],
+        red: [162, 179],
+        x2: [152, 171],
+        x4: [141, 162],
+        awm: [93, 118],
+        olho: [133, 151],
+        dpi: [0, 0]
+    },
+
+    iphone13: {
+        nome: "iPhone 13",
+        geral: [166, 182],
+        red: [160, 177],
+        x2: [150, 169],
+        x4: [139, 160],
+        awm: [92, 116],
+        olho: [131, 149],
+        dpi: [0, 0]
+    }
+};
+
+
+/* Sorteia um número inteiro dentro da faixa */
+
+function numero(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
-function variacaoCelular(nome) {
+/*
+    Cria uma configuração.
+    O tipo de mira muda levemente as faixas.
+*/
 
-  let total = 0;
+function gerarConfiguracao(perfil, tipo) {
 
-  for (let i = 0; i < nome.length; i++) {
-    total += nome.charCodeAt(i) * (i + 1);
-  }
+    let fator = 0;
 
-  return (total % 11) - 5;
+    if (tipo === "capa") {
+        fator = 2;
+    }
+
+    if (tipo === "precisao") {
+        fator = -2;
+    }
+
+    if (tipo === "red_dot") {
+        fator = 1;
+    }
+
+    if (tipo === "geral") {
+        fator = 0;
+    }
+
+    return {
+
+        geral: numero(
+            perfil.geral[0] + fator,
+            perfil.geral[1] + fator
+        ),
+
+        red: numero(
+            perfil.red[0] + fator,
+            perfil.red[1] + fator
+        ),
+
+        x2: numero(
+            perfil.x2[0] + fator,
+            perfil.x2[1] + fator
+        ),
+
+        x4: numero(
+            perfil.x4[0] + fator,
+            perfil.x4[1] + fator
+        ),
+
+        awm: numero(
+            perfil.awm[0],
+            perfil.awm[1]
+        ),
+
+        olho: numero(
+            perfil.olho[0],
+            perfil.olho[1]
+        )
+    };
 }
 
 
-function dpiRecomendado(nome) {
-
-  const texto = nome.toLowerCase();
-
-  if (
-    texto.includes("iphone") ||
-    texto.includes("samsung s") ||
-    texto.includes("galaxy s")
-  ) {
-    return 600;
-  }
-
-  if (
-    texto.includes("realme") ||
-    texto.includes("redmi") ||
-    texto.includes("poco")
-  ) {
-    return 560;
-  }
-
-  if (
-    texto.includes("motorola") ||
-    texto.includes("moto")
-  ) {
-    return 550;
-  }
-
-  return 600;
-}
-
-
-/* ==============================
-   GERAR SENSI
-============================== */
+/*
+    GERAÇÃO PRINCIPAL
+*/
 
 function gerarSensi() {
 
-  const celular =
-    document.getElementById("celular").value.trim();
+    const celularSelecionado =
+        document.getElementById("celular").value;
 
-  const mira =
-    document.getElementById("mira").value;
+    const tipoMira =
+        document.getElementById("mira").value;
 
-  const modoDpi =
-    document.querySelector(
-      'input[name="dpiModo"]:checked'
-    ).value;
+    const modoDpi =
+        document.getElementById("modoDpi").value;
 
+    const perfil =
+        aparelhos[celularSelecionado];
 
-  if (celular === "") {
+    const config =
+        gerarConfiguracao(perfil, tipoMira);
 
-    alert("Digite a marca e o modelo do seu celular.");
 
-    document.getElementById("celular").focus();
+    /*
+        Mostra o aparelho
+    */
 
-    return;
-  }
+    document.getElementById("nomeAparelho").textContent =
+        perfil.nome;
 
 
-  /* Valores base */
+    /*
+        Mostra descrição
+    */
 
-  let geral = 190;
-  let redDot = 185;
-  let mira2x = 175;
-  let mira4x = 165;
-  let awm = 120;
-  let olhadinha = 180;
+    document.getElementById("descricao").textContent =
+        "Configuração focada em puxada de capa — Free Fire OB55";
 
 
-  /* Ajuste pelo tipo de mira */
+    /*
+        Mostra sensibilidades
+    */
 
-  if (mira === "capa") {
+    document.getElementById("geral").textContent =
+        config.geral;
 
-    geral += 6;
-    redDot += 7;
-    mira2x += 5;
-    mira4x += 3;
-    olhadinha += 5;
+    document.getElementById("redDot").textContent =
+        config.red;
 
-  }
+    document.getElementById("mira2x").textContent =
+        config.x2;
 
-  else if (mira === "rapida") {
+    document.getElementById("mira4x").textContent =
+        config.x4;
 
-    geral += 8;
-    redDot += 6;
-    mira2x += 5;
-    mira4x += 3;
-    olhadinha += 7;
+    document.getElementById("awm").textContent =
+        config.awm;
 
-  }
+    document.getElementById("olhadinha").textContent =
+        config.olho;
 
-  else if (mira === "equilibrada") {
 
-    geral += 2;
-    redDot += 2;
-    mira2x += 2;
+    /*
+        DPI
 
-  }
+        Se escolher SEM DPI:
+        não mostra DPI.
 
-  else if (mira === "precisa") {
+        Se escolher COM DPI:
+        gera uma DPI junto.
+    */
 
-    geral -= 4;
-    redDot -= 3;
-    mira2x -= 2;
-    mira4x -= 1;
-    awm += 4;
+    const boxDpi =
+        document.getElementById("boxDpi");
 
-  }
+    if (
+        modoDpi === "com" &&
+        perfil.dpi[1] > 0
+    ) {
 
-  else if (mira === "longa") {
+        const dpiGerada =
+            numero(
+                perfil.dpi[0],
+                perfil.dpi[1]
+            );
 
-    geral -= 7;
-    redDot -= 5;
-    mira2x -= 4;
-    mira4x -= 2;
-    awm += 7;
-    olhadinha -= 4;
+        document.getElementById("dpi").textContent =
+            dpiGerada;
 
-  }
+        boxDpi.style.display = "block";
 
+    } else {
 
-  /* Ajuste pelo celular */
+        boxDpi.style.display = "none";
 
-  const variacao =
-    variacaoCelular(celular);
+    }
 
-  geral += variacao;
-  redDot += variacao;
-  mira2x += variacao;
-  mira4x += variacao;
-  awm += Math.round(variacao / 2);
-  olhadinha += variacao;
 
+    /*
+        Número da geração
+    */
 
-  /* DPI recomendado */
+    const numeroGeracao =
+        Math.floor(Math.random() * 9999) + 1;
 
-  const dpi =
-    dpiRecomendado(celular);
+    document.getElementById("geracao").textContent =
+        "Configuração #" + numeroGeracao +
+        " • Gere novamente para criar outra combinação";
 
 
-  /*
-    Se o usuário escolheu Com DPI,
-    ajustamos levemente a sensibilidade.
-  */
+    /*
+        Mostra resultado
+    */
 
-  if (modoDpi === "com") {
+    document.getElementById("resultado").style.display =
+        "block";
 
-    const ajuste =
-      Math.round((600 - dpi) / 20);
 
-    geral += ajuste;
-    redDot += ajuste;
-    mira2x += ajuste;
-    mira4x += ajuste;
-    olhadinha += ajuste;
+    /*
+        Rola suavemente até o resultado
+    */
 
-  }
-
-
-  /* Limitar */
-
-  geral = limitar(geral, 0, 200);
-  redDot = limitar(redDot, 0, 200);
-  mira2x = limitar(mira2x, 0, 200);
-  mira4x = limitar(mira4x, 0, 200);
-  awm = limitar(awm, 0, 200);
-  olhadinha = limitar(olhadinha, 0, 200);
-
-
-  /* Colocar resultados na tela */
-
-  document.getElementById("geral").textContent =
-    geral;
-
-  document.getElementById("redDot").textContent =
-    redDot;
-
-  document.getElementById("mira2x").textContent =
-    mira2x;
-
-  document.getElementById("mira4x").textContent =
-    mira4x;
-
-  document.getElementById("awm").textContent =
-    awm;
-
-  document.getElementById("olhadinha").textContent =
-    olhadinha;
-
-
-  /* DPI */
-
-  const dpiResultado =
-    document.getElementById("dpiResultado");
-
-  if (modoDpi === "com") {
-
-    document.getElementById("dpiNumero").textContent =
-      dpi;
-
-    dpiResultado.style.display = "block";
-
-  } else {
-
-    dpiResultado.style.display = "none";
-
-  }
-
-
-  /* Resumo */
-
-  document.getElementById("resumo").textContent =
-    celular + " • " +
-    (modoDpi === "com" ? "Com DPI" : "Sem DPI") +
-    " • " +
-    mira;
-
-
-  /* Mostrar resultado */
-
-  const resultado =
-    document.getElementById("resultado");
-
-  resultado.classList.add("active");
-
-  resultado.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-
+    document.getElementById("resultado").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 }
 
 
-/* ==============================
-   BOTÕES
-============================== */
+/*
+    Deixa o resultado escondido quando
+    o usuário muda algumas opções.
+*/
 
-document
-  .getElementById("botaoGerar")
-  .addEventListener("click", gerarSensi);
+document.getElementById("modoDpi").addEventListener(
+    "change",
+    function() {
 
+        if (this.value === "sem") {
+            document.getElementById("boxDpi").style.display =
+                "none";
+        }
 
-document
-  .getElementById("botaoNovamente")
-  .addEventListener("click", function () {
-
-    document
-      .getElementById("resultado")
-      .classList.remove("active");
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  });
+    }
+);
 
 </script>
 
 </body>
-   </html>
+  </html>
