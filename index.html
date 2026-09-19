@@ -167,6 +167,7 @@ button:active {
 
     <div class="header">
         <div class="logo">Gerador de Sensi FF</div>
+
         <div class="subtitle">
             Sensibilidades focadas em puxada de capa
         </div>
@@ -177,37 +178,47 @@ button:active {
         <label>📱 Marca e modelo</label>
 
         <select id="celular">
+
             <option value="realme_note70">Realme Note 70</option>
             <option value="realme_c75">Realme C75</option>
             <option value="realme_c71">Realme C71</option>
             <option value="realme_c61">Realme C61</option>
+
             <option value="samsung_a15">Samsung Galaxy A15</option>
             <option value="samsung_a16">Samsung Galaxy A16</option>
             <option value="samsung_a25">Samsung Galaxy A25</option>
             <option value="samsung_a35">Samsung Galaxy A35</option>
+
             <option value="xiaomi_redmi13c">Redmi 13C</option>
             <option value="xiaomi_note13">Redmi Note 13</option>
+
             <option value="motorola_g54">Moto G54</option>
             <option value="motorola_g84">Moto G84</option>
+
             <option value="iphone11">iPhone 11</option>
             <option value="iphone12">iPhone 12</option>
             <option value="iphone13">iPhone 13</option>
+
         </select>
 
         <label>🎯 Tipo de mira</label>
 
         <select id="mira">
+
             <option value="capa">Puxada de capa</option>
             <option value="precisao">Capa + precisão</option>
             <option value="red_dot">Red Dot</option>
             <option value="geral">Geral</option>
+
         </select>
 
         <label>📲 DPI</label>
 
         <select id="modoDpi">
+
             <option value="sem">Sem DPI</option>
             <option value="com">Com DPI</option>
+
         </select>
 
         <button onclick="gerarSensi()">
@@ -215,6 +226,7 @@ button:active {
         </button>
 
     </div>
+
 
     <div class="card resultado" id="resultado">
 
@@ -257,8 +269,11 @@ button:active {
         </div>
 
         <div class="dpi" id="boxDpi">
+
             <span>DPI recomendada</span>
+
             <strong id="dpi"></strong>
+
         </div>
 
         <div class="geracao" id="geracao"></div>
@@ -267,256 +282,527 @@ button:active {
 
 </div>
 
+
 <script>
 
 /*
-    PERFIS DOS APARELHOS
+===========================================================
+  PERFIS DOS CELULARES
+===========================================================
 
-    Os números são faixas de geração.
-    O gerador escolhe valores diferentes dentro
-    dessas faixas a cada clique.
+Cada celular possui várias configurações.
 
-    Isso evita repetir sempre a mesma configuração.
+O gerador NÃO fica sorteando números individualmente.
+
+Ele escolhe uma configuração completa.
+
+Isso evita combinações estranhas e repetição imediata.
 */
+
 
 const aparelhos = {
 
     realme_note70: {
         nome: "Realme Note 70",
-        geral: [184, 198],
-        red: [178, 194],
-        x2: [168, 186],
-        x4: [155, 176],
-        awm: [105, 132],
-        olho: [145, 165],
-        dpi: [420, 520]
+
+        dpi: [420, 520],
+
+        perfis: [
+
+            [198, 194, 184, 174, 125, 164],
+            [195, 191, 181, 171, 120, 161],
+            [192, 188, 178, 168, 118, 158],
+            [189, 186, 176, 165, 115, 155],
+            [196, 192, 182, 170, 122, 160],
+            [187, 183, 173, 162, 112, 153],
+            [194, 189, 180, 167, 119, 159],
+            [191, 187, 177, 164, 116, 156]
+        ]
     },
+
 
     realme_c75: {
         nome: "Realme C75",
-        geral: [182, 197],
-        red: [176, 192],
-        x2: [166, 184],
-        x4: [153, 174],
-        awm: [105, 130],
-        olho: [143, 163],
-        dpi: [420, 520]
+
+        dpi: [420, 520],
+
+        perfis: [
+
+            [197, 192, 183, 173, 125, 163],
+            [194, 189, 180, 170, 121, 160],
+            [191, 186, 177, 167, 117, 157],
+            [188, 184, 174, 164, 113, 153],
+            [196, 190, 181, 169, 120, 161],
+            [190, 185, 176, 165, 115, 155],
+            [193, 188, 179, 168, 118, 158],
+            [186, 181, 172, 162, 110, 151]
+        ]
     },
+
 
     realme_c71: {
         nome: "Realme C71",
-        geral: [180, 196],
-        red: [175, 191],
-        x2: [164, 183],
-        x4: [152, 173],
-        awm: [103, 129],
-        olho: [142, 162],
-        dpi: [400, 520]
+
+        dpi: [400, 520],
+
+        perfis: [
+
+            [196, 191, 182, 172, 124, 162],
+            [193, 188, 179, 169, 120, 159],
+            [190, 185, 176, 166, 116, 156],
+            [187, 182, 173, 163, 112, 152],
+            [195, 190, 180, 170, 121, 160],
+            [191, 186, 177, 165, 117, 155],
+            [189, 184, 175, 164, 114, 153],
+            [194, 187, 178, 167, 119, 157]
+        ]
     },
+
 
     realme_c61: {
         nome: "Realme C61",
-        geral: [178, 194],
-        red: [172, 190],
-        x2: [162, 181],
-        x4: [150, 171],
-        awm: [100, 128],
-        olho: [140, 160],
-        dpi: [400, 520]
+
+        dpi: [400, 520],
+
+        perfis: [
+
+            [194, 189, 180, 170, 123, 160],
+            [191, 186, 177, 167, 118, 157],
+            [188, 183, 174, 164, 114, 153],
+            [185, 180, 171, 161, 110, 150],
+            [193, 188, 179, 168, 120, 158],
+            [190, 185, 176, 165, 115, 155],
+            [187, 182, 173, 163, 112, 152],
+            [192, 187, 178, 166, 117, 156]
+        ]
     },
+
 
     samsung_a15: {
         nome: "Samsung Galaxy A15",
-        geral: [180, 195],
-        red: [174, 190],
-        x2: [164, 182],
-        x4: [152, 172],
-        awm: [102, 130],
-        olho: [142, 162],
-        dpi: [420, 540]
+
+        dpi: [420, 540],
+
+        perfis: [
+
+            [195, 190, 181, 171, 122, 161],
+            [192, 187, 178, 168, 118, 158],
+            [189, 184, 175, 165, 114, 155],
+            [186, 181, 172, 162, 110, 151],
+            [194, 189, 180, 169, 120, 159],
+            [191, 186, 177, 166, 116, 156],
+            [188, 183, 174, 164, 112, 153],
+            [193, 188, 179, 167, 119, 157]
+        ]
     },
+
 
     samsung_a16: {
         nome: "Samsung Galaxy A16",
-        geral: [181, 196],
-        red: [175, 191],
-        x2: [165, 183],
-        x4: [153, 173],
-        awm: [103, 130],
-        olho: [143, 163],
-        dpi: [420, 540]
+
+        dpi: [420, 540],
+
+        perfis: [
+
+            [196, 191, 182, 172, 123, 162],
+            [193, 188, 179, 169, 119, 159],
+            [190, 185, 176, 166, 115, 156],
+            [187, 182, 173, 163, 111, 152],
+            [195, 190, 181, 170, 121, 160],
+            [192, 187, 178, 167, 117, 157],
+            [189, 184, 175, 164, 113, 154],
+            [194, 189, 180, 168, 120, 158]
+        ]
     },
+
 
     samsung_a25: {
         nome: "Samsung Galaxy A25",
-        geral: [178, 193],
-        red: [172, 189],
-        x2: [162, 181],
-        x4: [150, 171],
-        awm: [100, 127],
-        olho: [140, 160],
-        dpi: [420, 560]
+
+        dpi: [420, 560],
+
+        perfis: [
+
+            [193, 188, 179, 169, 120, 159],
+            [190, 185, 176, 166, 116, 156],
+            [187, 182, 173, 163, 112, 153],
+            [184, 179, 170, 160, 108, 149],
+            [192, 187, 178, 168, 118, 158],
+            [189, 184, 175, 165, 114, 155],
+            [186, 181, 172, 162, 110, 152],
+            [191, 186, 177, 167, 117, 157]
+        ]
     },
+
 
     samsung_a35: {
         nome: "Samsung Galaxy A35",
-        geral: [176, 192],
-        red: [170, 188],
-        x2: [160, 180],
-        x4: [148, 169],
-        awm: [98, 125],
-        olho: [138, 158],
-        dpi: [420, 560]
+
+        dpi: [420, 560],
+
+        perfis: [
+
+            [192, 187, 178, 168, 119, 158],
+            [189, 184, 175, 165, 115, 155],
+            [186, 181, 172, 162, 111, 152],
+            [183, 178, 169, 159, 107, 148],
+            [191, 186, 177, 167, 117, 157],
+            [188, 183, 174, 164, 113, 154],
+            [185, 180, 171, 161, 109, 151],
+            [190, 185, 176, 166, 116, 156]
+        ]
     },
+
 
     xiaomi_redmi13c: {
         nome: "Redmi 13C",
-        geral: [183, 198],
-        red: [177, 193],
-        x2: [167, 185],
-        x4: [154, 175],
-        awm: [105, 132],
-        olho: [145, 165],
-        dpi: [400, 520]
+
+        dpi: [400, 520],
+
+        perfis: [
+
+            [198, 193, 184, 174, 126, 165],
+            [195, 190, 181, 171, 121, 162],
+            [192, 187, 178, 168, 117, 159],
+            [189, 184, 175, 165, 113, 155],
+            [196, 191, 182, 172, 122, 163],
+            [193, 188, 179, 169, 118, 160],
+            [190, 185, 176, 166, 114, 156],
+            [187, 182, 173, 163, 110, 153]
+        ]
     },
+
 
     xiaomi_note13: {
         nome: "Redmi Note 13",
-        geral: [178, 194],
-        red: [172, 189],
-        x2: [162, 181],
-        x4: [150, 171],
-        awm: [100, 128],
-        olho: [140, 160],
-        dpi: [420, 560]
+
+        dpi: [420, 560],
+
+        perfis: [
+
+            [194, 189, 180, 170, 121, 160],
+            [191, 186, 177, 167, 117, 157],
+            [188, 183, 174, 164, 113, 154],
+            [185, 180, 171, 161, 109, 151],
+            [193, 188, 179, 169, 119, 159],
+            [190, 185, 176, 166, 115, 156],
+            [187, 182, 173, 163, 111, 153],
+            [192, 187, 178, 168, 118, 158]
+        ]
     },
+
 
     motorola_g54: {
         nome: "Moto G54",
-        geral: [180, 196],
-        red: [174, 191],
-        x2: [164, 183],
-        x4: [152, 173],
-        awm: [102, 130],
-        olho: [142, 162],
-        dpi: [420, 540]
+
+        dpi: [420, 540],
+
+        perfis: [
+
+            [196, 191, 182, 172, 123, 162],
+            [193, 188, 179, 169, 119, 159],
+            [190, 185, 176, 166, 115, 156],
+            [187, 182, 173, 163, 111, 152],
+            [195, 190, 181, 170, 121, 160],
+            [192, 187, 178, 167, 117, 157],
+            [189, 184, 175, 164, 113, 154],
+            [194, 189, 180, 168, 120, 158]
+        ]
     },
+
 
     motorola_g84: {
         nome: "Moto G84",
-        geral: [178, 194],
-        red: [172, 189],
-        x2: [162, 181],
-        x4: [150, 171],
-        awm: [100, 128],
-        olho: [140, 160],
-        dpi: [420, 560]
+
+        dpi: [420, 560],
+
+        perfis: [
+
+            [193, 188, 179, 169, 120, 159],
+            [190, 185, 176, 166, 116, 156],
+            [187, 182, 173, 163, 112, 153],
+            [184, 179, 170, 160, 108, 149],
+            [192, 187, 178, 168, 118, 158],
+            [189, 184, 175, 165, 114, 155],
+            [186, 181, 172, 162, 110, 152],
+            [191, 186, 177, 167, 117, 157]
+        ]
     },
+
 
     iphone11: {
         nome: "iPhone 11",
-        geral: [170, 186],
-        red: [164, 181],
-        x2: [154, 173],
-        x4: [143, 164],
-        awm: [95, 120],
-        olho: [135, 153],
-        dpi: [0, 0]
+
+        dpi: [0, 0],
+
+        perfis: [
+
+            [186, 181, 172, 162, 118, 154],
+            [183, 178, 169, 159, 114, 151],
+            [180, 175, 166, 156, 110, 148],
+            [177, 172, 163, 153, 106, 145],
+            [185, 180, 171, 161, 116, 153],
+            [182, 177, 168, 158, 112, 150],
+            [179, 174, 165, 155, 108, 147],
+            [184, 179, 170, 160, 115, 152]
+        ]
     },
+
 
     iphone12: {
         nome: "iPhone 12",
-        geral: [168, 184],
-        red: [162, 179],
-        x2: [152, 171],
-        x4: [141, 162],
-        awm: [93, 118],
-        olho: [133, 151],
-        dpi: [0, 0]
+
+        dpi: [0, 0],
+
+        perfis: [
+
+            [184, 179, 170, 160, 116, 152],
+            [181, 176, 167, 157, 112, 149],
+            [178, 173, 164, 154, 108, 146],
+            [175, 170, 161, 151, 104, 143],
+            [183, 178, 169, 159, 114, 151],
+            [180, 175, 166, 156, 110, 148],
+            [177, 172, 163, 153, 106, 145],
+            [182, 177, 168, 158, 113, 150]
+        ]
     },
+
 
     iphone13: {
         nome: "iPhone 13",
-        geral: [166, 182],
-        red: [160, 177],
-        x2: [150, 169],
-        x4: [139, 160],
-        awm: [92, 116],
-        olho: [131, 149],
-        dpi: [0, 0]
+
+        dpi: [0, 0],
+
+        perfis: [
+
+            [182, 177, 168, 158, 114, 150],
+            [179, 174, 165, 155, 110, 147],
+            [176, 171, 162, 152, 106, 144],
+            [173, 168, 159, 149, 102, 141],
+            [181, 176, 167, 157, 112, 149],
+            [178, 173, 164, 154, 108, 146],
+            [175, 170, 161, 151, 104, 143],
+            [180, 175, 166, 156, 111, 148]
+        ]
     }
+
 };
 
 
-/* Sorteia um número inteiro dentro da faixa */
+/*
+===========================================================
+  CONTROLE DE CONFIGURAÇÕES USADAS
+===========================================================
 
-function numero(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+Aqui está a principal mudança.
+
+Cada aparelho possui uma lista própria de configurações
+já utilizadas.
+
+Assim:
+
+1ª geração = perfil diferente
+2ª geração = outro perfil
+3ª geração = outro perfil
+
+Não repete até usar todos.
+*/
+
+
+const usadas = {};
+
+
+/*
+Cria a lista de controle para cada aparelho.
+*/
+
+Object.keys(aparelhos).forEach(function(chave) {
+    usadas[chave] = [];
+});
+
+
+/*
+===========================================================
+  EMBARALHAMENTO
+===========================================================
+*/
+
+function embaralhar(lista) {
+
+    const copia = [...lista];
+
+    for (let i = copia.length - 1; i > 0; i--) {
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [copia[i], copia[j]] =
+        [copia[j], copia[i]];
+    }
+
+    return copia;
 }
 
 
 /*
-    Cria uma configuração.
-    O tipo de mira muda levemente as faixas.
+===========================================================
+  ESCOLHER CONFIGURAÇÃO SEM REPETIR
+===========================================================
 */
 
-function gerarConfiguracao(perfil, tipo) {
+function escolherPerfil(chave) {
 
-    let fator = 0;
+    const aparelho = aparelhos[chave];
+
+    /*
+    Se todos os perfis já foram usados,
+    começa um novo ciclo.
+    */
+
+    if (usadas[chave].length >= aparelho.perfis.length) {
+
+        usadas[chave] = [];
+
+    }
+
+
+    let disponiveis = [];
+
+    for (
+        let i = 0;
+        i < aparelho.perfis.length;
+        i++
+    ) {
+
+        if (!usadas[chave].includes(i)) {
+
+            disponiveis.push(i);
+
+        }
+
+    }
+
+
+    /*
+    Escolhe aleatoriamente SOMENTE entre
+    os perfis que ainda não foram usados.
+    */
+
+    const indiceAleatorio =
+        disponiveis[
+            Math.floor(
+                Math.random() * disponiveis.length
+            )
+        ];
+
+
+    usadas[chave].push(indiceAleatorio);
+
+
+    return aparelho.perfis[indiceAleatorio];
+}
+
+
+/*
+===========================================================
+  AJUSTE DE MIRA
+===========================================================
+
+O perfil base continua sendo controlado.
+
+A mira apenas ajusta levemente a configuração.
+*/
+
+
+function ajustarMira(config, tipo) {
+
+    let ajuste = 0;
 
     if (tipo === "capa") {
-        fator = 2;
+        ajuste = 2;
     }
 
     if (tipo === "precisao") {
-        fator = -2;
+        ajuste = -2;
     }
 
     if (tipo === "red_dot") {
-        fator = 1;
+        ajuste = 1;
     }
 
     if (tipo === "geral") {
-        fator = 0;
+        ajuste = 0;
     }
+
 
     return {
 
-        geral: numero(
-            perfil.geral[0] + fator,
-            perfil.geral[1] + fator
-        ),
+        geral: limitar(config[0] + ajuste),
 
-        red: numero(
-            perfil.red[0] + fator,
-            perfil.red[1] + fator
-        ),
+        red: limitar(config[1] + ajuste),
 
-        x2: numero(
-            perfil.x2[0] + fator,
-            perfil.x2[1] + fator
-        ),
+        x2: limitar(config[2] + ajuste),
 
-        x4: numero(
-            perfil.x4[0] + fator,
-            perfil.x4[1] + fator
-        ),
+        x4: limitar(config[3]),
 
-        awm: numero(
-            perfil.awm[0],
-            perfil.awm[1]
-        ),
+        awm: limitar(config[4]),
 
-        olho: numero(
-            perfil.olho[0],
-            perfil.olho[1]
-        )
+        olho: limitar(config[5])
+
     };
 }
 
 
 /*
-    GERAÇÃO PRINCIPAL
+===========================================================
+  LIMITADOR
+===========================================================
+*/
+
+function limitar(numero) {
+
+    if (numero < 0) {
+        return 0;
+    }
+
+    if (numero > 200) {
+        return 200;
+    }
+
+    return numero;
+}
+
+
+/*
+===========================================================
+  DPI
+===========================================================
+*/
+
+function gerarDpi(min, max) {
+
+    if (min === 0 && max === 0) {
+        return 0;
+    }
+
+    /*
+    A DPI também usa valores em passos de 10,
+    evitando números quebrados ou estranhos.
+    */
+
+    const quantidade =
+        Math.floor((max - min) / 10);
+
+    const passo =
+        Math.floor(Math.random() * (quantidade + 1));
+
+    return min + (passo * 10);
+}
+
+
+/*
+===========================================================
+  GERAÇÃO PRINCIPAL
+===========================================================
 */
 
 function gerarSensi() {
@@ -530,31 +816,66 @@ function gerarSensi() {
     const modoDpi =
         document.getElementById("modoDpi").value;
 
-    const perfil =
-        aparelhos[celularSelecionado];
 
-    const config =
-        gerarConfiguracao(perfil, tipoMira);
+    const aparelho =
+        aparelhos[celularSelecionado];
 
 
     /*
-        Mostra o aparelho
+    Pega um perfil que ainda não foi usado.
+    */
+
+    const perfil =
+        escolherPerfil(celularSelecionado);
+
+
+    /*
+    Ajusta de acordo com o tipo de mira.
+    */
+
+    const config =
+        ajustarMira(perfil, tipoMira);
+
+
+    /*
+    APARELHO
     */
 
     document.getElementById("nomeAparelho").textContent =
-        perfil.nome;
+        aparelho.nome;
 
 
     /*
-        Mostra descrição
+    DESCRIÇÃO
     */
 
+    let textoMira = "";
+
+    if (tipoMira === "capa") {
+        textoMira = "Puxada de capa";
+    }
+
+    if (tipoMira === "precisao") {
+        textoMira = "Capa + precisão";
+    }
+
+    if (tipoMira === "red_dot") {
+        textoMira = "Red Dot";
+    }
+
+    if (tipoMira === "geral") {
+        textoMira = "Configuração geral";
+    }
+
+
     document.getElementById("descricao").textContent =
-        "Configuração focada em puxada de capa — Free Fire OB55";
+        textoMira +
+        " • Perfil específico para " +
+        aparelho.nome;
 
 
     /*
-        Mostra sensibilidades
+    SENSIBILIDADES
     */
 
     document.getElementById("geral").textContent =
@@ -577,55 +898,56 @@ function gerarSensi() {
 
 
     /*
-        DPI
-
-        Se escolher SEM DPI:
-        não mostra DPI.
-
-        Se escolher COM DPI:
-        gera uma DPI junto.
+    DPI
     */
 
     const boxDpi =
         document.getElementById("boxDpi");
 
+
     if (
         modoDpi === "com" &&
-        perfil.dpi[1] > 0
+        aparelho.dpi[1] > 0
     ) {
 
         const dpiGerada =
-            numero(
-                perfil.dpi[0],
-                perfil.dpi[1]
+            gerarDpi(
+                aparelho.dpi[0],
+                aparelho.dpi[1]
             );
+
 
         document.getElementById("dpi").textContent =
             dpiGerada;
 
-        boxDpi.style.display = "block";
+
+        boxDpi.style.display =
+            "block";
 
     } else {
 
-        boxDpi.style.display = "none";
+        boxDpi.style.display =
+            "none";
 
     }
 
 
     /*
-        Número da geração
+    NÚMERO DA GERAÇÃO
     */
 
     const numeroGeracao =
         Math.floor(Math.random() * 9999) + 1;
 
+
     document.getElementById("geracao").textContent =
-        "Configuração #" + numeroGeracao +
-        " • Gere novamente para criar outra combinação";
+        "Configuração #" +
+        numeroGeracao +
+        " • Perfil diferente do anterior";
 
 
     /*
-        Mostra resultado
+    MOSTRA RESULTADO
     */
 
     document.getElementById("resultado").style.display =
@@ -633,19 +955,21 @@ function gerarSensi() {
 
 
     /*
-        Rola suavemente até o resultado
+    ROLA ATÉ O RESULTADO
     */
 
     document.getElementById("resultado").scrollIntoView({
         behavior: "smooth",
         block: "start"
     });
+
 }
 
 
 /*
-    Deixa o resultado escondido quando
-    o usuário muda algumas opções.
+===========================================================
+  MUDANÇA DE DPI
+===========================================================
 */
 
 document.getElementById("modoDpi").addEventListener(
@@ -653,8 +977,10 @@ document.getElementById("modoDpi").addEventListener(
     function() {
 
         if (this.value === "sem") {
+
             document.getElementById("boxDpi").style.display =
                 "none";
+
         }
 
     }
@@ -663,4 +989,4 @@ document.getElementById("modoDpi").addEventListener(
 </script>
 
 </body>
-  </html>
+    </html>
